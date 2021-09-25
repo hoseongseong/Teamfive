@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "312607290964",
+    "firebase_url": "https://teamfive-7d572-default-rtdb.firebaseio.com",
+    "project_id": "teamfive-7d572",
+    "storage_bucket": "teamfive-7d572.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:312607290964:android:c3e6a433e37873101f5fc1",
+        "android_client_info": {
+          "package_name": "com.example.teamfive"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "312607290964-secmtihb6ad8cac8b87k1svjub8lochc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgdIP6Byd_gCvDY5W93LQ9nFL0pF5EsXI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "312607290964-secmtihb6ad8cac8b87k1svjub8lochc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
