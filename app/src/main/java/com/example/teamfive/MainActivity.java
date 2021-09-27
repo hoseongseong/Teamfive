@@ -2,10 +2,16 @@ package com.example.teamfive;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.annotation.SuppressLint;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -21,13 +27,72 @@ public class MainActivity extends AppCompatActivity {
 
     private MapFragment mapFragment;
     private PlusFragment plusFragment;
+    private listFragment listFragment;
 
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
+
+    private ImageView[] imgGroup;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Init();
+
     }
+
+    public void Init() {
+        fragmentManager = getSupportFragmentManager();
+        mapFragment=new MapFragment();
+        plusFragment= new PlusFragment();
+        listFragment=new listFragment();
+
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.flFragment, mapFragment).commitAllowingStateLoss();
+
+        imgGroup = new ImageView[3];
+        imgGroup[0] = findViewById(R.id.img1);
+        imgGroup[1] = findViewById(R.id.img2);
+        imgGroup[2] = findViewById(R.id.img3);
+
+        clickHandler(findViewById(R.id.ll2));
+
+    }
+
+    public void clickHandler(View view) {
+        fragmentTransaction = fragmentManager.beginTransaction();
+        switch (view.getId()) {
+            case R.id.ll1:
+                fragmentTransaction.replace(R.id.flFragment, plusFragment).commitAllowingStateLoss();
+                SetView(0);
+                break;
+            case R.id.ll2:
+                fragmentTransaction.replace(R.id.flFragment, mapFragment).commitAllowingStateLoss();
+                SetView(1);
+                break;
+            case R.id.ll3:
+                fragmentTransaction.replace(R.id.flFragment, listFragment).commitAllowingStateLoss();
+                SetView(2);
+                break;
+        }
+    }
+
+    @SuppressLint("ResourceAsColor")
+    private void SetView(int targetI) {
+        for(int i = 0; i<3; i++){
+            if(i==targetI) {
+                imgGroup[i].setColorFilter(Color.parseColor("#4F4F4F"));
+            }
+            else {
+                imgGroup[i].setColorFilter(Color.parseColor("#BDBDBD"));
+            }
+        }
+    }
+    public void changeFragment(Fragment fragment){
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.flFragment, fragment).commitAllowingStateLoss();
+    }
+
 }

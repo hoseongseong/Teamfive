@@ -3,7 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Teamfive/app/src/main/res/drawable-v24/ic_baseline_map_24.xml" value="0.2101851851851852" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Teamfive/app/src/main/res/drawable-v24/ripple_unbounded.xml" value="0.38229166666666664" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/Teamfive/app/src/main/res/layout/activity_main.xml" value="0.35052083333333334" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Teamfive/app/src/main/res/layout/listfragment_layout.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Teamfive/app/src/main/res/layout/mapfragment_layout.xml" value="0.1" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Teamfive/app/src/main/res/layout/plusfragment_layout.xml" value="0.36614583333333334" />
       </map>
     </option>
   </component>

@@ -10,14 +10,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class PlusFragment extends Fragment {
+public class listFragment extends Fragment {
     private View view;
     private Context context;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         context = getActivity();
-        view = inflater.inflate(R.layout.plusfragment_layout, container, false);
+        view = inflater.inflate(R.layout.listfragment_layout, container, false);
 
         return view;
     }
