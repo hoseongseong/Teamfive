@@ -1,6 +1,5 @@
 package com.example.teamfive;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -8,24 +7,19 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference db = firebaseDatabase.getReference();
 
-    private MapFragment mapFragment;
+    private mapFragment mapFragment;
     private PlusFragment plusFragment;
     private listFragment listFragment;
 
@@ -45,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void Init() {
         fragmentManager = getSupportFragmentManager();
-        mapFragment=new MapFragment();
+        mapFragment=new mapFragment();
         plusFragment= new PlusFragment();
         listFragment=new listFragment();
 
