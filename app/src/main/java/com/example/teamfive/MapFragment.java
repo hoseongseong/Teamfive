@@ -1,4 +1,4 @@
 package com.example.teamfive;
 
-public class FirstFragment {
+public class MapFragment {
 }
