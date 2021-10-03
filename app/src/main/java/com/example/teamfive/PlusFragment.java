@@ -52,7 +52,7 @@ public class PlusFragment extends Fragment {
                         });
 
                 AlertDialog dialog = builder.create();    // 알림창 객체 생성
-                dialog.show();    // 알림창 띄우기
+                dialog.show();    // 알림창  띄우기
             }
         });
 
