@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -59,8 +60,9 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction = fragmentManager.beginTransaction();
         switch (view.getId()) {
             case R.id.ll1:
-                fragmentTransaction.replace(R.id.flFragment, plusFragment).commitAllowingStateLoss();
                 SetView(0);
+                Intent intent = new Intent(this,PlusFragment.class);
+                startActivity(intent);
                 break;
             case R.id.ll2:
                 fragmentTransaction.replace(R.id.flFragment, mapFragment).commitAllowingStateLoss();
