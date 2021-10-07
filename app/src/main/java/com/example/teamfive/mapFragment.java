@@ -39,7 +39,7 @@ import com.naver.maps.map.overlay.LocationOverlay;
 import com.naver.maps.map.overlay.Marker;
 
 import java.util.ArrayList;
-
+//wntjr
 public class mapFragment extends Fragment implements OnMapReadyCallback {
     private View view;
     private Context context;
