@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFBF00"
+    android:gravity="center_vertical"
+    tools:context=".LoginActivity">
+
+    <EditText
+        android:padding="13dp"
+        android:id="@+id/et_email"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:inputType="textEmailAddress"
+        android:hint="E-Mail"
+        android:textCursorDrawable="@drawable/cursor2"
+        android:background="@drawable/background_rounding3"
+        android:textColor="#000000"
+        android:textColorHint="#808080" />
+
+
+    <EditText
+        android:layout_marginTop="5dp"
+        android:padding="13dp"
+        android:id="@+id/et_pwd"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:hint="Password"
+        android:textCursorDrawable="@drawable/cursor2"
+        android:inputType="textPassword"
+        android:background="@drawable/background_rounding3"
+        android:textColor="#000000"
+        android:textColorHint="#808080" />
+
+    <CheckBox
+        android:layout_marginTop="5dp"
+        android:id="@+id/chk_auto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textColor="#0F0F0F"
+        android:buttonTint="#BD7E07"
+        android:text="자동 로그인"
+        android:textSize="15dp"/>
+
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="180dp"
+        android:layout_height="49dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/background_rounding4"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:text="Login" />
+
+    <TextView
+        android:id="@+id/tv_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:text="회원가입"
+        android:textSize="15sp"
+        android:textColor="#000000"
+        android:gravity="center"/>
+
+</LinearLayout>
