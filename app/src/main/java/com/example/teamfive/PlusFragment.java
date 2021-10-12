@@ -42,6 +42,9 @@ public class PlusFragment extends AppCompatActivity{
 
     Context context;
 
+    private double latitude;
+    private double longitude;
+
     Uri file = Uri.parse("android.resource://com.example/teamfive/drawable/noimg");
 
     @Override
@@ -58,6 +61,10 @@ public class PlusFragment extends AppCompatActivity{
         item_img=findViewById(R.id.item_img);
         setOnClick();
         context=this;
+
+        Intent intent = getIntent();
+        latitude=intent.getExtras().getDouble("latitude");
+        longitude=intent.getExtras().getDouble("longitude");
 
     }
 
