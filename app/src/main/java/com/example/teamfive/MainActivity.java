@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.ll1:
                 SetView(0);
-                Intent intent = new Intent(this,PlusFragment.class);
+                Intent intent = new Intent(this,plusmapActivity.class);
                 startActivity(intent);
                 break;
             case R.id.ll2:

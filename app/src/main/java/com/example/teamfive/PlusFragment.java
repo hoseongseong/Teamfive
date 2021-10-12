@@ -26,12 +26,14 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.storage.FirebaseStorage;
+import com.naver.maps.map.NaverMap;
+import com.naver.maps.map.OnMapReadyCallback;
 
 import java.io.InputStream;
 
 import android.os.Bundle;
 
-public class PlusFragment extends AppCompatActivity {
+public class PlusFragment extends AppCompatActivity{
 
     private final int GALLERY_CODE = 10;
     private FirebaseStorage storage=FirebaseStorage.getInstance();
