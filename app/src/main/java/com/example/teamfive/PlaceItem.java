@@ -1,6 +1,7 @@
 package com.example.teamfive;
 
 public class PlaceItem {
+    private String key;
     private String name;
     private String info;
     private double latitude;
@@ -9,11 +10,13 @@ public class PlaceItem {
 
     public PlaceItem() {}
 
-    public PlaceItem(String name, String info, long latitude, long longitude) {
+    public PlaceItem(String key, String name, String info, double latitude, double longitude, boolean near) {
+        this.key = key;
         this.name = name;
         this.info = info;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.near = near;
     }
 
     public boolean isNear() {
