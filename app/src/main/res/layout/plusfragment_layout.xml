@@ -8,8 +8,6 @@
     android:background="@drawable/bg123"
     tools:context=".PlusFragment">
 
-
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
