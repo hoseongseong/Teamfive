@@ -40,6 +40,7 @@ import com.naver.maps.map.OnMapReadyCallback;
 import java.io.InputStream;
 
 import android.os.Bundle;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -71,6 +72,7 @@ public class PlusFragment extends AppCompatActivity{
     private String user_id;
 
     Uri file = Uri.parse("android.resource://com.example/teamfive/drawable/noimg");
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
