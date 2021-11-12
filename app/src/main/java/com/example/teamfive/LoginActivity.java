@@ -34,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public static Context context_login;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
