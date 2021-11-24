@@ -15,7 +15,7 @@ public class PlaceFragment extends Fragment {
     private Context context;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         context = getActivity();
         view = inflater.inflate(R.layout.placefragment_layout, container, false);
 
