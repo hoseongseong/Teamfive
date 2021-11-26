@@ -2,10 +2,12 @@ package com.example.teamfive;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -88,6 +90,17 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceViewHol
                 holder.name_place.setText(""+e);
             }
         });
+
+        holder.ll_place.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PlaceInfoFragment placeInfoFragment = new PlaceInfoFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("place_id",placelist.get(position));
+                placeInfoFragment.setArguments(bundle);
+                ((MainActivity)context).changeFragment(placeInfoFragment);
+            }
+        });
     }
 
     @Override
@@ -96,10 +109,12 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceViewHol
     }
 
     public class PlaceViewHolder extends RecyclerView.ViewHolder {
+        LinearLayout ll_place;
         TextView name_place;
         ImageView img_place;
         public PlaceViewHolder(@NonNull View itemView) {
             super(itemView);
+            this.ll_place=itemView.findViewById(R.id.place_ll);
             this.name_place=itemView.findViewById(R.id.place_name);
             this.img_place=itemView.findViewById(R.id.place_img);
         }
