@@ -9,10 +9,12 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,6 +25,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -52,13 +55,20 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
 
     LatLng curruent_location;
 
+    private FirebaseAuth mFirebaseAuth;
+    String user_id;
+
     LocationManager locationManager;
     LocationListener locationListener;
+
+    ArrayList<PlaceItem> placelist;
 
     String[] REQUIRED_PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
 
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference db = firebaseDatabase.getReference();
+
+    TextView test;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -66,11 +76,73 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
         view = inflater.inflate(R.layout.mapfragment_layout, container, false);
 
         checkPermissions();
+
+
         mapView = (MapView) view.findViewById(R.id.map_view);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
 
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable()
+        { @Override public void run() {
+            test.setText("delay");
+        }
+        },1000);
+
+
+        init();
+
         return view;
+    }
+
+
+    public void init() {
+
+        test = (TextView)view.findViewById(R.id.test);
+
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        user_id=mFirebaseAuth.getCurrentUser().getUid();
+
+        placelist = new ArrayList();
+
+        db.child("Itemlist").child(user_id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                placelist.clear();
+                for(DataSnapshot sn : snapshot.getChildren()) {
+                    PlaceItem item = sn.getValue(PlaceItem.class);
+                    placelist.add(item);
+                    test.setText(sn.getKey());
+
+                    LatLng latLng = new LatLng(item.getLatitude(),item.getLongitude());
+                    Marker marker=new Marker();
+                    marker.setPosition(latLng);
+                    marker.setMap(naverMap);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable()
+        { @Override public void run() { }
+            },1000);
+        test.setText(""+placelist.size());
+    }
+
+    public void marking() {
+        for(int i=0;i<placelist.size();i++) {
+            PlaceItem item = placelist.get(i);
+            LatLng latLng = new LatLng(item.getLatitude(),item.getLongitude());
+            Marker marker=new Marker();
+            marker.setPosition(latLng);
+            marker.setMap(naverMap);
+
+        }
     }
 
     private void checkPermissions() {
@@ -200,6 +272,32 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
         locationManager.requestLocationUpdates(locationProvider, 1, 1, locationListener);
         locationProvider=LocationManager.NETWORK_PROVIDER;
         locationManager.requestLocationUpdates(locationProvider,1,1,locationListener);
+
+
+        db.child("Itemlist").child(user_id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                placelist.clear();
+                for(DataSnapshot sn : snapshot.getChildren()) {
+                    PlaceItem item = sn.getValue(PlaceItem.class);
+
+                    Double latitude = (Double)sn.child("latitude").getValue();
+                    Double longitude = (Double)sn.child("longitude").getValue();
+                    placelist.add(item);
+                    test.setText(sn.getKey());
+
+                    LatLng latLng = new LatLng(latitude,longitude);
+                    Marker marker=new Marker();
+                    marker.setPosition(latLng);
+                    marker.setMap(naverMap);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
     }
     public void updatelocation(Location location) {
