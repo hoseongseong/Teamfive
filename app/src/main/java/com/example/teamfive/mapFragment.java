@@ -11,6 +11,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,12 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.teamfive.Notification.APIService;
+import com.example.teamfive.Notification.Client;
+import com.example.teamfive.Notification.MyResponse;
+import com.example.teamfive.Notification.NotificationData;
+import com.example.teamfive.Notification.SendData;
+import com.example.teamfive.Notification.Token;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -42,6 +49,11 @@ import com.naver.maps.map.overlay.LocationOverlay;
 import com.naver.maps.map.overlay.Marker;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 //wntjr
 public class mapFragment extends Fragment implements OnMapReadyCallback {
     private View view;
@@ -317,6 +329,64 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
         LocationOverlay locationOverlay = naverMap.getLocationOverlay();
         locationOverlay.setVisible(true);
         locationOverlay.setPosition(curruent_location);
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Itemlist").child(mFirebaseAuth.getCurrentUser().getUid());
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot snapshot1 : snapshot.getChildren()){
+                    PlaceItem item = snapshot1.getValue(PlaceItem.class);
+                    if(cp(latitude, item.getLatitude()) == 1 && cp(longitude, item.getLongitude()) == 1){
+
+                        final Runnable runnable = new Runnable() {
+                            @Override
+                            public void run() {
+                                DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference("UserTokenList").child(mFirebaseAuth.getCurrentUser().getUid());
+                                reference1.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        Token item2 = snapshot.getValue(Token.class);
+                                        APIService apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
+                                        apiService.sendNotification(new NotificationData(new SendData(item.getInfo(), item.getName()), item2.getToken()))
+                                                .enqueue(new Callback<MyResponse>() {
+                                                    @Override
+                                                    public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                                                        if(response.code() == 200){
+                                                            if(response.body().success == 1){
+                                                                Log.e("Notification", "success");
+                                                            }
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onFailure(Call<MyResponse> call, Throwable t) {
+
+                                                    }
+                                                });
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+
+                            }
+                        };
+                        Thread tr = new Thread(runnable);
+                        tr.start();
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
     }
     //구현 중인 부분
     public void checkItem(double latitude,double longitude) {
@@ -349,6 +419,25 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
+    }
+
+    private int cp(double d1, double d2){
+        if(d1 >= d2){
+            if(d1 - d2 < 0.001){
+                return 1;
+            }
+            else{
+                return 0;
+            }
+        }
+        else{
+            if(d2 - d1 < 0.001){
+                return 1;
+            }
+            else{
+                return 0;
+            }
+        }
     }
 
     private double ruler(double first_latitude,double first_longitude,double second_latitude,double second_longitude)
