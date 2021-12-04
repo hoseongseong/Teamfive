@@ -45,8 +45,10 @@ import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.MapView;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
+import com.naver.maps.map.overlay.InfoWindow;
 import com.naver.maps.map.overlay.LocationOverlay;
 import com.naver.maps.map.overlay.Marker;
+import com.naver.maps.map.overlay.Overlay;
 
 import java.util.ArrayList;
 
@@ -82,6 +84,8 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
 
     TextView test;
 
+    InfoWindow infoWindow;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         context = getActivity();
@@ -89,21 +93,13 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
 
         checkPermissions();
 
+        init();
 
         mapView = (MapView) view.findViewById(R.id.map_view);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
 
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable()
-        { @Override public void run() {
-            test.setText("delay");
-        }
-        },1000);
-
-
-        init();
 
         return view;
     }
@@ -118,44 +114,22 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
 
         placelist = new ArrayList();
 
-        db.child("Itemlist").child(user_id).addListenerForSingleValueEvent(new ValueEventListener() {
+        infoWindow = new InfoWindow();
+
+        infoWindow.setAdapter(new InfoWindow.DefaultTextAdapter(context) {
+
+            @NonNull
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                placelist.clear();
-                for(DataSnapshot sn : snapshot.getChildren()) {
-                    PlaceItem item = sn.getValue(PlaceItem.class);
-                    placelist.add(item);
-                    test.setText(sn.getKey());
-
-                    LatLng latLng = new LatLng(item.getLatitude(),item.getLongitude());
-                    Marker marker=new Marker();
-                    marker.setPosition(latLng);
-                    marker.setMap(naverMap);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
+            public CharSequence getText(@NonNull InfoWindow infoWindow) {
+                Marker marker = infoWindow.getMarker();
+                PlaceItem item = (PlaceItem)marker.getTag();
+                return item.getName();
             }
         });
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable()
-        { @Override public void run() { }
-            },1000);
-        test.setText(""+placelist.size());
+
+
     }
 
-    public void marking() {
-        for(int i=0;i<placelist.size();i++) {
-            PlaceItem item = placelist.get(i);
-            LatLng latLng = new LatLng(item.getLatitude(),item.getLongitude());
-            Marker marker=new Marker();
-            marker.setPosition(latLng);
-            marker.setMap(naverMap);
-
-        }
-    }
 
     private void checkPermissions() {
         if (!checkLocationServicesStatus()) {
@@ -285,23 +259,32 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
         locationProvider=LocationManager.NETWORK_PROVIDER;
         locationManager.requestLocationUpdates(locationProvider,1,1,locationListener);
 
-
         db.child("Itemlist").child(user_id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 placelist.clear();
                 for(DataSnapshot sn : snapshot.getChildren()) {
                     PlaceItem item = sn.getValue(PlaceItem.class);
-
-                    Double latitude = (Double)sn.child("latitude").getValue();
-                    Double longitude = (Double)sn.child("longitude").getValue();
                     placelist.add(item);
                     test.setText(sn.getKey());
 
-                    LatLng latLng = new LatLng(latitude,longitude);
+                    LatLng latLng = new LatLng(item.getLatitude(),item.getLongitude());
                     Marker marker=new Marker();
+                    marker.setTag(item);
                     marker.setPosition(latLng);
+                    marker.setOnClickListener(new Overlay.OnClickListener() {
+                        @Override
+                        public boolean onClick(@NonNull Overlay overlay) {
+
+                            Marker marker = (Marker) overlay;
+
+                            infoWindow.open(marker);
+
+                            return false;
+                        }
+                    });
                     marker.setMap(naverMap);
+
                 }
             }
 
@@ -310,6 +293,8 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
 
             }
         });
+
+
 
     }
     public void updatelocation(Location location) {
@@ -387,37 +372,7 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
         });
 
 
-    }
-    //구현 중인 부분
-    public void checkItem(double latitude,double longitude) {
-        String user_id="";  //유저 아이디로 이용할 부분
 
-        db.child("Users").child(user_id).child("Items").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot sn : snapshot.getChildren()) {
-                    PlaceItem item = sn.getValue(PlaceItem.class);
-                    String key = sn.getKey();
-                    if(item.isNear()) {
-                        if(50<ruler(latitude,longitude,item.getLatitude(), item.getLongitude())) {
-                            db.child("Users").child(user_id).child("Items").child(key).child("near").setValue(false);
-                        }
-                    }
-                    else {
-                        if(50>ruler(latitude,longitude,item.getLatitude(), item.getLongitude())) {
-                            //alaram;
-                            db.child("Users").child(user_id).child("Items").child(key).child("near").setValue(true);
-                        }
-                    }
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
     }
 
@@ -440,22 +395,4 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-    private double ruler(double first_latitude,double first_longitude,double second_latitude,double second_longitude)
-    {
-        double distance=0.0;
-
-        double R = 6372.8;
-
-        double dLat = Math.toRadians(first_latitude-second_latitude);
-        double dLon = Math.toRadians(first_longitude-second_longitude);
-        double fr_latitude = Math.toRadians(first_latitude);
-        double sr_latitude = Math.toRadians(second_latitude);
-
-        double tempt = Math.pow(Math.sin(dLat/2),2)+Math.pow(Math.sin(dLon/2),2)*Math.cos(fr_latitude)*Math.cos(sr_latitude);
-        double c = 2*Math.asin(Math.sqrt(tempt));
-
-        distance = R*c*1000;
-
-        return distance;
-    }
 }
