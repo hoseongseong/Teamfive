@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#FFBF00"
+    android:background="@drawable/p2"
     tools:context=".RegisterActivity">
 
 
@@ -21,7 +21,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginLeft="30dp"
             android:text="회원가입"
-            android:textColor="#000000"
+            android:textColor="#7F7EFD"
             android:textSize="25dp"
             android:textStyle="bold" />
 

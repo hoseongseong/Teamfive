@@ -18,7 +18,7 @@
             android:layout_marginTop="10dp"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:src="@drawable/flag" />
+            android:src="@drawable/star" />
 
 
         <LinearLayout
@@ -30,6 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="장소이름"
+                android:textColor="#7F7EFD"
                 android:textStyle="bold"
                 android:textSize="40dp"/>
 
@@ -59,7 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:src="@drawable/flag" />
+            android:src="@drawable/pluspi" />
     </LinearLayout>
 
     <LinearLayout
@@ -92,6 +93,7 @@
             android:id="@+id/placeText4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#99D9EA"
             android:text="언제 방문한 장소"
             android:textSize="20dp"/>
 
@@ -109,6 +111,7 @@
             android:id="@+id/placeText5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#99D9EA"
             android:text="누구와 함께"
             android:textSize="20dp"/>
 
