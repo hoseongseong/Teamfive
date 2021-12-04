@@ -61,7 +61,7 @@ public class PlusFragment extends AppCompatActivity{
     private double longitude;
 
     private FirebaseDatabase database=FirebaseDatabase.getInstance();
-    private DatabaseReference db;
+    private DatabaseReference db=database.getReference();
 
     String post_id;
     String post_name;
@@ -107,11 +107,12 @@ public class PlusFragment extends AppCompatActivity{
     public void setOnClick() {
         button.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {
+
                 db=database.getReference("Itemlist").child(user_id).push();
                 post_id=db.getKey();
                 post_name=edit_name.getText().toString();
                 post_info=edit_info.getText().toString();
-                PlaceItem item = new PlaceItem(post_id,post_name,post_info,latitude,longitude,false);
+                PlaceItem item = new PlaceItem(post_id,post_name,post_info,latitude,longitude);
                 db.setValue(item);
 
                 StorageReference storageRef = storage.getReference();

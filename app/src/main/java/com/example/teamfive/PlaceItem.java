@@ -1,30 +1,28 @@
 package com.example.teamfive;
 
 public class PlaceItem {
-    private String key;
-    private String name;
-    private String info;
-    private double latitude;
-    private double longitude;
-    private boolean near;
+    String key;
+    String name;
+    String info;
+    double latitude;
+    double longitude;
 
     public PlaceItem() {}
 
-    public PlaceItem(String key, String name, String info, double latitude, double longitude, boolean near) {
+    public PlaceItem(String key, String name, String info, double latitude, double longitude) {
         this.key = key;
         this.name = name;
         this.info = info;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.near = near;
     }
 
-    public boolean isNear() {
-        return near;
+    public String getKey() {
+        return key;
     }
 
-    public void setNear(boolean near) {
-        this.near = near;
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getName() {
@@ -47,7 +45,7 @@ public class PlaceItem {
         return latitude;
     }
 
-    public void setLatitude(long latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
@@ -55,7 +53,7 @@ public class PlaceItem {
         return longitude;
     }
 
-    public void setLongitude(long longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 }
