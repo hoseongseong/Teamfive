@@ -45,8 +45,10 @@ import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.MapView;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
+import com.naver.maps.map.overlay.InfoWindow;
 import com.naver.maps.map.overlay.LocationOverlay;
 import com.naver.maps.map.overlay.Marker;
+import com.naver.maps.map.overlay.Overlay;
 
 import java.util.ArrayList;
 
@@ -82,6 +84,8 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
 
     TextView test;
 
+    InfoWindow infoWindow;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         context = getActivity();
@@ -109,6 +113,19 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
         user_id=mFirebaseAuth.getCurrentUser().getUid();
 
         placelist = new ArrayList();
+
+        infoWindow = new InfoWindow();
+
+        infoWindow.setAdapter(new InfoWindow.DefaultTextAdapter(context) {
+
+            @NonNull
+            @Override
+            public CharSequence getText(@NonNull InfoWindow infoWindow) {
+                Marker marker = infoWindow.getMarker();
+                PlaceItem item = (PlaceItem)marker.getTag();
+                return item.getName();
+            }
+        });
 
 
     }
@@ -253,8 +270,21 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
 
                     LatLng latLng = new LatLng(item.getLatitude(),item.getLongitude());
                     Marker marker=new Marker();
+                    marker.setTag(item);
                     marker.setPosition(latLng);
+                    marker.setOnClickListener(new Overlay.OnClickListener() {
+                        @Override
+                        public boolean onClick(@NonNull Overlay overlay) {
+
+                            Marker marker = (Marker) overlay;
+
+                            infoWindow.open(marker);
+
+                            return false;
+                        }
+                    });
                     marker.setMap(naverMap);
+
                 }
             }
 
