@@ -20,7 +20,6 @@ public class SplashActivity  extends AppCompatActivity {
     ImageView oImageView;
     ImageView flowerImageView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -10,6 +10,7 @@
     tools:context=".LoginActivity">
 
 
+
     <EditText
         android:padding="13dp"
         android:id="@+id/et_email"

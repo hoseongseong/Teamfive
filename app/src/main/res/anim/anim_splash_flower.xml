@@ -9,4 +9,5 @@
         android:pivotY="40%"
         android:fromDegrees="0"
         android:toDegrees="360"/>
+
 </set>
