@@ -3,19 +3,62 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/place_ll"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="250dp"
     android:clickable="true"
     android:gravity="center"
     android:orientation="horizontal"
     >
-
-    <ImageView
-        android:id="@+id/place_img"
-        android:layout_width="100dp"
-        android:layout_height="100dp"/>
-    <TextView
-        android:id="@+id/place_name"
-        android:textSize="15sp"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="250dp">
+
+        <ImageView
+            android:background="@drawable/round_backgroud_border_black"
+            android:id="@+id/place_img"
+            android:layout_width="280dp"
+            android:layout_height="220dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/beach"
+            android:scaleType="centerCrop"/>
+        <LinearLayout
+            android:background="@drawable/round_backgroud_border_black"
+            android:layout_width="190dp"
+            android:layout_height="180dp"
+            android:layout_marginLeft="200dp"
+            android:layout_marginTop="35dp">
+
+            <LinearLayout
+                android:layout_width="160dp"
+                android:layout_height="150dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/place_name"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="장소이름"/>
+
+                <TextView
+                    android:id="@+id/place_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="장소위치"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/place_explanation"
+                    android:textSize="15sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="장소설명장소설명장소설명장소설명장소설명장소설명장소설명"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </FrameLayout>
+
 </LinearLayout>

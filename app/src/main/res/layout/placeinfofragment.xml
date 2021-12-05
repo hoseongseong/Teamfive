@@ -1,40 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:layout_height="match_parent">
+    android:background="@drawable/bgpf">
+
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        >
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_marginTop="10dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/star" />
 
-        <TextView
-            android:id="@+id/place_name"
-            android:layout_marginLeft="8dp"
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textSize="19sp"
-            android:textColor="@color/black"
-            android:text="name"/>
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/place_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="장소이름"
+                android:textColor="#7F7EFD"
+                android:textStyle="bold"
+                android:textSize="40dp"/>
+
+            <TextView
+                android:layout_marginLeft="20dp"
+                android:id="@+id/placeText2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="장소위치"
+                android:textSize="30dp"/>
+        </LinearLayout>
 
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/place_img"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="15dp"
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:id="@+id/place_img"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:clickable="true"
+            android:src="@drawable/ic_launcher_foreground" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
         android:layout_width="wrap_content"
-        android:layout_height="350dp"
-        android:layout_gravity="center"
-        android:adjustViewBounds="true"
-        android:clickable="true"
-        android:src="@drawable/ic_launcher_foreground"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/placeText3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="장소설명장소설명장소설명장소설명장소설명장소설명장소설명장소설명장소설명장소설명장소설명장소설명"
+            android:textSize="30dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="end">
+
+        <TextView
+            android:id="@+id/placeText4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#99D9EA"
+            android:text="언제 방문한 장소"
+            android:textSize="20dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="end">
+
+        <TextView
+            android:id="@+id/placeText5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#99D9EA"
+            android:text="누구와 함께"
+            android:textSize="20dp"/>
+
+    </LinearLayout>
 
 </LinearLayout>

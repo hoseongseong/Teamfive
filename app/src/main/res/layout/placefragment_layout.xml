@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <TextView
-                android:id="@+id/placeText1"
+                android:id="@+id/place_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="장소이름"
@@ -57,11 +57,12 @@
         android:layout_gravity="center">
 
         <ImageView
-            android:id="@+id/imgCall"
+            android:id="@+id/place_img"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:src="@drawable/pluspi" />
+            android:clickable="true"
+            android:src="@drawable/ic_launcher_foreground" />
     </LinearLayout>
 
     <LinearLayout
