@@ -5,189 +5,268 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/bg123"
+    android:background="#E8F0FF"
     tools:context=".PlusFragment">
 
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center">
+        android:background="#F1F1F1"
+        android:gravity="center"
+        android:paddingRight="5dp"
+        >
 
         <TextView
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="                 PeriWinkle"
+            android:gravity="center"
+            android:textSize="23dp"
             android:textColor="#000000"
-            android:textStyle="bold"
-            android:fontFamily="@font/fontlight"
-            android:text="장소 추가"
-            android:textSize="30sp"/>
-    </LinearLayout>
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:orientation="vertical">
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
+            android:layout_gravity="center"
+            android:layout_weight="10"
+            android:fontFamily="@font/fontlight"/>
 
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/flag" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="작성완료"
+            android:backgroundTint="#E8F0FF"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:fontFamily="@font/fontlight"
+            android:id="@+id/plusButton"
+            android:background="@drawable/round_background"/>
+    </LinearLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:layout_marginTop="10dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/bingka" />
 
             <TextView
                 android:id="@+id/text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 android:text="장소명"
+                android:textColor="#000000"
                 android:fontFamily="@font/fontlight"
-                android:textSize="15dp"/>
-            <ImageView
-                android:layout_width="300dp"
-                android:layout_height="match_parent"
-                android:src="@drawable/line"/>
+                android:textSize="20dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/round_background"
+            android:layout_height="50dp">
             <EditText
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:id="@+id/item_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="장소명 추가"
-                android:fontFamily="@font/fontlight"
-                android:textSize="20dp"/>
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp">
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/flag" />
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="함께한 사람"
+                android:background="@drawable/round_background"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
                 android:fontFamily="@font/fontlight"
                 android:textSize="15dp"/>
-            <ImageView
-                android:layout_width="300dp"
-                android:layout_height="match_parent"
-                android:src="@drawable/line"/>
-            <EditText
-                android:id="@+id/item_with"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/fontlight"
-                android:hint="함께한 사람 추가"
-                android:textSize="20dp"/>
         </LinearLayout>
+
+
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp">
 
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/flag" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/bingka" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/fontlight"
+                android:layout_marginTop="2dp"
                 android:text="장소 설명"
-                android:textSize="15dp"/>
-            <ImageView
-                android:layout_width="300dp"
-                android:layout_height="match_parent"
-                android:src="@drawable/line"/>
-            <EditText
-                android:id="@+id/item_info"
-                android:layout_width="wrap_content"
+                android:textColor="#000000"
                 android:fontFamily="@font/fontlight"
-                android:layout_height="wrap_content"
-                android:hint="장소 설명 추가"
                 android:textSize="20dp"/>
+
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/round_background"
+            android:layout_height="100dp">
+            <EditText
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:id="@+id/item_info"
+                android:gravity="top"
+                android:background="@drawable/round_background"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:fontFamily="@font/fontlight"
+                android:textSize="15dp"/>
+
+        </LinearLayout>
+
+
     </LinearLayout>
 
-
-
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp">
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/flag" />
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="200dp"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/bingka" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="사진"
+                android:layout_marginTop="2dp"
+                android:text="함께한 사람들"
+                android:textColor="#000000"
                 android:fontFamily="@font/fontlight"
-                android:textSize="15dp"/>
-            <ImageView
-                android:id="@+id/item_img"
-                android:layout_width="300dp"
-                android:layout_height="match_parent"
-                android:clickable="true"
-                android:src="@drawable/pluspi"/>
+                android:textSize="20dp"/>
+
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:padding="5dp"
+            android:id="@+id/tagll"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:layout_height="50dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/round_background"
+                android:layout_height="50dp">
+                <EditText
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:id="@+id/item_tag"
+                    android:background="@drawable/round_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:fontFamily="@font/fontlight"
+                    android:textSize="15dp"/>
+            </LinearLayout>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:text="추가"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="5"
+                android:gravity="center"
+                android:fontFamily="@font/fontlight"
+                android:id="@+id/tagButton"
+                android:backgroundTint="#a2b4d8"
+                android:background="@drawable/round_background"/>
+
+        </LinearLayout>
+
+
     </LinearLayout>
+
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
 
-        <Button
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="추가"
-            android:fontFamily="@font/fontlight"
-            android:id="@+id/plusButton"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/bggrad"/>
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/bingka" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="사진"
+                android:textColor="#000000"
+                android:fontFamily="@font/fontlight"
+                android:textSize="20dp"/>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/item_img"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:clickable="true"
+            android:src="@drawable/ic_baseline_insert_photo_24"/>
+
     </LinearLayout>
+
+
+
 </LinearLayout>
 
 </LinearLayout>

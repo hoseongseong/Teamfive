@@ -15,6 +15,7 @@ import com.naver.maps.map.MapView;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
 import com.naver.maps.map.overlay.Marker;
+import com.naver.maps.map.overlay.OverlayImage;
 
 import java.util.ArrayList;
 
@@ -65,6 +66,10 @@ public class plusmapActivity extends AppCompatActivity implements OnMapReadyCall
                 Marker marker=new Marker();
                 LIST.add(marker);
                 marker.setHideCollidedMarkers(true);
+
+                marker.setIcon(OverlayImage.fromResource(R.drawable.bingkamarker));
+                marker.setWidth(120);
+                marker.setHeight(140);
                 //맵에 띄울때는 latLng 밑에 두줄 쓰면됩니다.
                 marker.setPosition(latLng);
                 marker.setMap(naverMap);
