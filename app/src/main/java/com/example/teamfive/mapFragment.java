@@ -268,7 +268,7 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
                     Marker marker=new Marker();
                     marker.setTag(item);
                     marker.setIcon(OverlayImage.fromResource(R.drawable.bingkamarker));
-                    marker.setWidth(120);
+                    marker.setWidth(110);
                     marker.setHeight(140);
                     marker.setHideCollidedMarkers(true);
                     marker.setPosition(latLng);

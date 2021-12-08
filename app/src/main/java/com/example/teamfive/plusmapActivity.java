@@ -68,7 +68,7 @@ public class plusmapActivity extends AppCompatActivity implements OnMapReadyCall
                 marker.setHideCollidedMarkers(true);
 
                 marker.setIcon(OverlayImage.fromResource(R.drawable.bingkamarker));
-                marker.setWidth(120);
+                marker.setWidth(110);
                 marker.setHeight(140);
                 //맵에 띄울때는 latLng 밑에 두줄 쓰면됩니다.
                 marker.setPosition(latLng);
