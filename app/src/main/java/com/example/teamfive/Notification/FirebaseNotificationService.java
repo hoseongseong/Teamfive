@@ -68,7 +68,7 @@ public class FirebaseNotificationService extends FirebaseMessagingService {
             Uri defaultUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             NotificationCompat.Builder notificationBuilder =
                     new NotificationCompat.Builder(getApplicationContext(), channelId)
-                            .setSmallIcon(R.mipmap.ic_launcher)
+                            .setSmallIcon(R.drawable.bingka)
                             .setContentTitle(name+"에 가까워짐")
                             .setAutoCancel(true)
                             .setSound(defaultUri)

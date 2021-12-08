@@ -49,6 +49,7 @@ import com.naver.maps.map.overlay.InfoWindow;
 import com.naver.maps.map.overlay.LocationOverlay;
 import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.Overlay;
+import com.naver.maps.map.overlay.OverlayImage;
 
 import java.util.ArrayList;
 
@@ -271,6 +272,9 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
                     LatLng latLng = new LatLng(item.getLatitude(),item.getLongitude());
                     Marker marker=new Marker();
                     marker.setTag(item);
+                    marker.setIcon(OverlayImage.fromResource(R.drawable.bingkamarker));
+                    marker.setWidth(100);
+                    marker.setHeight(120);
                     marker.setPosition(latLng);
                     marker.setOnClickListener(new Overlay.OnClickListener() {
                         @Override
