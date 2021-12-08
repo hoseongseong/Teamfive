@@ -31,6 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="장소이름"
+                android:fontFamily="@font/fontlight"
                 android:textColor="#7F7EFD"
                 android:textStyle="bold"
                 android:textSize="40dp"/>
@@ -38,6 +39,7 @@
             <TextView
                 android:layout_marginLeft="20dp"
                 android:id="@+id/placeText2"
+                android:fontFamily="@font/fontlight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="장소위치"
@@ -59,7 +61,7 @@
         <ImageView
             android:id="@+id/place_img"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="400dp"
             android:adjustViewBounds="true"
             android:clickable="true"
             android:src="@drawable/ic_launcher_foreground" />
@@ -77,6 +79,7 @@
             android:id="@+id/placeText3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/fontlight"
             android:text="장소설명장소설명장소설명장소설명장소설명장소설명장소설명장소설명장소설명장소설명장소설명장소설명"
             android:textSize="30dp"/>
 
@@ -97,6 +100,7 @@
             android:layout_height="wrap_content"
             android:textColor="#99D9EA"
             android:text="언제 방문한 장소"
+            android:fontFamily="@font/fontlight"
             android:textSize="20dp"/>
 
     </LinearLayout>
@@ -114,6 +118,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#99D9EA"
+            android:fontFamily="@font/fontlight"
             android:text="누구와 함께"
             android:textSize="20dp"/>
 

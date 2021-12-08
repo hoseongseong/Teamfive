@@ -23,6 +23,7 @@
             android:layout_marginLeft="30dp"
             android:text="회원가입"
             android:textColor="#7F7EFD"
+            android:fontFamily="@font/fontlight"
             android:textSize="25dp"
             android:textStyle="bold" />
 
@@ -45,6 +46,7 @@
             android:ems="12"
             android:hint="E-Mail"
             android:padding="13dp"
+            android:fontFamily="@font/fontlight"
             android:background="@drawable/background_rounding3"
             android:inputType="textEmailAddress"
             android:textColor="#000000"
@@ -57,6 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:ems="12"
+            android:fontFamily="@font/fontlight"
             android:theme="@style/EditTheme"
             android:padding="13dp"
             android:background="@drawable/background_rounding3"
@@ -70,6 +73,7 @@
             android:id="@+id/btn_register"
             android:layout_width="180dp"
             android:layout_height="49dp"
+            android:fontFamily="@font/fontlight"
             android:layout_gravity="center"
             android:layout_marginTop="35dp"
             android:background="@drawable/background_rounding8"

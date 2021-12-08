@@ -83,8 +83,6 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference db = firebaseDatabase.getReference();
 
-    TextView test;
-
     InfoWindow infoWindow;
 
     @Override
@@ -107,8 +105,6 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
 
 
     public void init() {
-
-        test = (TextView)view.findViewById(R.id.test);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         user_id=mFirebaseAuth.getCurrentUser().getUid();
@@ -267,7 +263,6 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
                 for(DataSnapshot sn : snapshot.getChildren()) {
                     PlaceItem item = sn.getValue(PlaceItem.class);
                     placelist.add(item);
-                    test.setText(sn.getKey());
 
                     LatLng latLng = new LatLng(item.getLatitude(),item.getLongitude());
                     Marker marker=new Marker();

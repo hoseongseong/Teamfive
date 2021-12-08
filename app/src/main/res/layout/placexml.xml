@@ -40,6 +40,7 @@
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:layout_width="wrap_content"
+                    android:fontFamily="@font/fontlight"
                     android:layout_height="wrap_content"
                     android:text="장소이름"/>
 
@@ -47,6 +48,7 @@
                     android:id="@+id/place_location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/fontlight"
                     android:text="장소위치"
                     android:textSize="10sp" />
 
@@ -55,6 +57,7 @@
                     android:textSize="15sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/fontlight"
                     android:text="장소설명장소설명장소설명장소설명장소설명장소설명장소설명"/>
             </LinearLayout>
         </LinearLayout>
