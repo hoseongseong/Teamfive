@@ -148,7 +148,7 @@ public class PlusFragment extends AppCompatActivity{
                 LinearLayout.LayoutParams layoutParams2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1);
                 layoutParams2.rightMargin = 5;
                 TextView tv = new TextView(PlusFragment.this);
-                tv.setTextColor(getColor(R.color.teal_700));
+                tv.setTextColor(getColor(R.color.black));
                 tv.setTextSize(13);
                 tv.setText(tag);
                 tv.setLayoutParams(layoutParams2);

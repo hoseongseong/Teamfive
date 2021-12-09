@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageView[] imgGroup;
 
+    private ImageView drawable_button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
         plusFragment= new PlusFragment();
         listFragment=new listFragment();
 
+        drawable_button=(ImageView)findViewById(R.id.drawableButton);
+
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.flFragment, mapFragment).commitAllowingStateLoss();
 
@@ -54,6 +58,14 @@ public class MainActivity extends AppCompatActivity {
 
         clickHandler(findViewById(R.id.ll2));
 
+        //-----------여기!!!!------------
+        drawable_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        //-----------여기!!!!------------
     }
 
     public void clickHandler(View view) {

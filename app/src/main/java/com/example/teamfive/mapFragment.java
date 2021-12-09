@@ -51,7 +51,9 @@ import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.Overlay;
 import com.naver.maps.map.overlay.OverlayImage;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -264,6 +266,8 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
                     PlaceItem item = sn.getValue(PlaceItem.class);
                     placelist.add(item);
 
+                    db.child("Itemlist").child(user_id).child(sn.getKey()).child("visit").setValue(0);
+
                     LatLng latLng = new LatLng(item.getLatitude(),item.getLongitude());
                     Marker marker=new Marker();
                     marker.setTag(item);
@@ -321,46 +325,59 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot snapshot1 : snapshot.getChildren()){
                     PlaceItem item = snapshot1.getValue(PlaceItem.class);
-                    if(cp(latitude, item.getLatitude()) == 1 && cp(longitude, item.getLongitude()) == 1){
+                    if(ruler(latitude,longitude,item.getLatitude(),item.getLongitude())<=30) {
 
-                        final Runnable runnable = new Runnable() {
-                            @Override
-                            public void run() {
-                                DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference("UserTokenList").child(mFirebaseAuth.getCurrentUser().getUid());
-                                reference1.addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        Token item2 = snapshot.getValue(Token.class);
-                                        APIService apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
-                                        apiService.sendNotification(new NotificationData(new SendData(item.getInfo(), item.getName()), item2.getToken()))
-                                                .enqueue(new Callback<MyResponse>() {
-                                                    @Override
-                                                    public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
-                                                        if(response.code() == 200){
-                                                            if(response.body().success == 1){
-                                                                Log.e("Notification", "success");
+                        if (item.getVisit() == 0) {
+
+                            db.child("Itemlist").child(user_id).child(snapshot1.getKey()).child("visit").setValue(1);
+
+                            long now = System.currentTimeMillis();
+                            Date date = new Date(now);
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+                            String timeline = dateFormat.format(date);
+
+                            db.child("Itemlist").child(user_id).child(snapshot1.getKey()).child("time").setValue(timeline);
+
+                            final Runnable runnable = new Runnable() {
+                                @Override
+                                public void run() {
+                                    DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference("UserTokenList").child(mFirebaseAuth.getCurrentUser().getUid());
+                                    reference1.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            Token item2 = snapshot.getValue(Token.class);
+                                            APIService apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
+                                            apiService.sendNotification(new NotificationData(new SendData(item.getInfo(), item.getName()), item2.getToken()))
+                                                    .enqueue(new Callback<MyResponse>() {
+                                                        @Override
+                                                        public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                                                            if (response.code() == 200) {
+                                                                if (response.body().success == 1) {
+                                                                    Log.e("Notification", "success");
+                                                                }
                                                             }
                                                         }
-                                                    }
 
-                                                    @Override
-                                                    public void onFailure(Call<MyResponse> call, Throwable t) {
+                                                        @Override
+                                                        public void onFailure(Call<MyResponse> call, Throwable t) {
 
-                                                    }
-                                                });
-                                    }
+                                                        }
+                                                    });
+                                        }
 
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
 
-                                    }
-                                });
+                                        }
+                                    });
 
-                            }
-                        };
-                        Thread tr = new Thread(runnable);
-                        tr.start();
+                                }
+                            };
+                            Thread tr = new Thread(runnable);
+                            tr.start();
+                        }
                     }
+                    else db.child("Itemlist").child(user_id).child(snapshot1.getKey()).child("visit").setValue(0);
                 }
 
             }
@@ -376,23 +393,23 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
-    private int cp(double d1, double d2){
-        if(d1 >= d2){
-            if(d1 - d2 < 0.001){
-                return 1;
-            }
-            else{
-                return 0;
-            }
-        }
-        else{
-            if(d2 - d1 < 0.001){
-                return 1;
-            }
-            else{
-                return 0;
-            }
-        }
+    private double ruler(double first_latitude,double first_longitude,double second_latitude,double second_longitude)
+    {
+        double distance=0.0;
+
+        double R = 6372.8;
+
+        double dLat = Math.toRadians(first_latitude-second_latitude);
+        double dLon = Math.toRadians(first_longitude-second_longitude);
+        double fr_latitude = Math.toRadians(first_latitude);
+        double sr_latitude = Math.toRadians(second_latitude);
+
+        double tempt = Math.pow(Math.sin(dLat/2),2)+Math.pow(Math.sin(dLon/2),2)*Math.cos(fr_latitude)*Math.cos(sr_latitude);
+        double c = 2*Math.asin(Math.sqrt(tempt));
+
+        distance = R*c*1000;
+
+        return distance;
     }
 
 }

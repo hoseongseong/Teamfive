@@ -1,43 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/place_ll"
     android:layout_width="match_parent"
-    android:layout_height="250dp"
+    android:layout_height="130dp"
     android:clickable="true"
+    android:paddingTop="5dp"
     android:gravity="center"
+    android:background="#E8F0FF"
+    android:layout_marginBottom="20dp"
     android:orientation="horizontal"
     >
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="250dp">
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="left"
+        >
         <ImageView
-            android:background="@drawable/round_backgroud_border_black"
             android:id="@+id/place_img"
-            android:layout_width="280dp"
-            android:layout_height="220dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="15dp"
-            android:src="@drawable/beach"
-            android:scaleType="centerCrop"/>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher_foreground" />
+
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:id="@+id/textbox"
+        android:background="@drawable/round_background"
+        android:layout_width="match_parent"
+        android:layout_margin="10dp"
+        android:layout_height="120dp"
+        android:paddingLeft="10dp"
+        android:orientation="vertical"
+        android:layout_gravity="right">
+
+
         <LinearLayout
-            android:background="@drawable/round_backgroud_border_black"
-            android:layout_width="190dp"
-            android:layout_height="180dp"
-            android:layout_marginLeft="200dp"
-            android:layout_marginTop="35dp">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginRight="5dp"
+                android:layout_gravity="center"
+                android:src="@drawable/bingka"/>
 
             <LinearLayout
-                android:layout_width="160dp"
-                android:layout_height="150dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="5dp"
                 android:orientation="vertical">
-
                 <TextView
-                    android:id="@+id/place_name"
-                    android:textSize="20sp"
+                    android:textSize="11sp"
                     android:textStyle="bold"
                     android:layout_width="wrap_content"
                     android:fontFamily="@font/fontlight"
@@ -45,23 +70,98 @@
                     android:text="장소이름"/>
 
                 <TextView
-                    android:id="@+id/place_location"
+                    android:id="@+id/place_name"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:fontFamily="@font/fontlight"
-                    android:text="장소위치"
-                    android:textSize="10sp" />
+                    android:layout_height="wrap_content"
+                    android:textColor="#000000"
+                    android:text="장소이름"/>
 
-                <TextView
-                    android:id="@+id/place_explanation"
-                    android:textSize="15sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/fontlight"
-                    android:text="장소설명장소설명장소설명장소설명장소설명장소설명장소설명"/>
             </LinearLayout>
+
         </LinearLayout>
 
-    </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/ruler"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="5dp"
+                android:orientation="vertical">
+                <TextView
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:fontFamily="@font/fontlight"
+                    android:layout_height="wrap_content"
+                    android:text="나와의 거리"/>
+
+                <TextView
+                    android:id="@+id/place_location"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:fontFamily="@font/fontlight"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000000"
+                    android:text="장소이름"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_gravity="center"
+                android:layout_height="25dp"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/clock"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="5dp"
+                android:orientation="vertical">
+                <TextView
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:fontFamily="@font/fontlight"
+                    android:layout_height="wrap_content"
+                    android:text="마지막 방문일"/>
+
+                <TextView
+                    android:id="@+id/place_date"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:fontFamily="@font/fontlight"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000000"
+                    android:text="장소이름"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
 
 </LinearLayout>

@@ -41,6 +41,9 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceViewHol
 
     String user_id;
 
+    private double nowlatitude;
+    private double nowlongitude;
+
     public PlaceAdapter(ArrayList<String> placelist, Context context,String user_id) {
         this.placelist = placelist;
         this.context = context;
@@ -57,6 +60,12 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceViewHol
 
     @Override
     public void onBindViewHolder(@NonNull PlaceViewHolder holder, int position) {
+
+        GpsTracker gps = new GpsTracker(context);
+        nowlatitude=gps.latitude;
+        nowlongitude=gps.longitude;
+
+
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
@@ -67,6 +76,10 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceViewHol
                 PlaceItem item=snapshot.getValue(PlaceItem.class);
                 String plc_name=item.getName();
                 holder.name_place.setText(plc_name);
+                holder.date_place.setText(item.getTime());
+                double distance1 = ruler(item.getLatitude(),item.getLongitude(),nowlatitude,nowlongitude);
+                int distance = (int)distance1;
+                holder.location_place.setText(""+distance+"m");
             }
 
             @Override
@@ -101,6 +114,28 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceViewHol
                 ((MainActivity)context).changeFragment(placeInfoFragment);
             }
         });
+
+
+
+    }
+
+    private double ruler(double first_latitude,double first_longitude,double second_latitude,double second_longitude)
+    {
+        double distance=0.0;
+
+        double R = 6372.8;
+
+        double dLat = Math.toRadians(first_latitude-second_latitude);
+        double dLon = Math.toRadians(first_longitude-second_longitude);
+        double fr_latitude = Math.toRadians(first_latitude);
+        double sr_latitude = Math.toRadians(second_latitude);
+
+        double tempt = Math.pow(Math.sin(dLat/2),2)+Math.pow(Math.sin(dLon/2),2)*Math.cos(fr_latitude)*Math.cos(sr_latitude);
+        double c = 2*Math.asin(Math.sqrt(tempt));
+
+        distance = R*c*1000;
+
+        return distance;
     }
 
     @Override
@@ -110,13 +145,19 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceViewHol
 
     public class PlaceViewHolder extends RecyclerView.ViewHolder {
         LinearLayout ll_place;
+        LinearLayout ll_box;
         TextView name_place;
+        TextView location_place;
+        TextView date_place;
         ImageView img_place;
         public PlaceViewHolder(@NonNull View itemView) {
             super(itemView);
             this.ll_place=itemView.findViewById(R.id.place_ll);
             this.name_place=itemView.findViewById(R.id.place_name);
+            this.location_place=itemView.findViewById(R.id.place_location);
+            this.date_place=itemView.findViewById(R.id.place_date);
             this.img_place=itemView.findViewById(R.id.place_img);
+            this.ll_box=itemView.findViewById(R.id.textbox);
         }
     }
 }
