@@ -12,7 +12,7 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/bingka"
-        android:label="빙카"
+        android:label=""
         android:roundIcon="@drawable/bingka"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">

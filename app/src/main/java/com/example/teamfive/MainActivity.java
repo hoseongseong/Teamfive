@@ -1,6 +1,10 @@
 package com.example.teamfive;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -8,12 +12,26 @@ import androidx.fragment.app.FragmentTransaction;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.view.MenuItem;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,6 +48,11 @@ public class MainActivity extends AppCompatActivity {
     private ImageView[] imgGroup;
 
     private ImageView drawable_button;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+
+    //드로우에서 현재 로그인한 이메일 가져오기
+    private FirebaseAuth mFirebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +60,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Init();
+        setNavigationBar();
 
     }
+
+
 
     public void Init() {
         fragmentManager = getSupportFragmentManager();
@@ -46,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         plusFragment= new PlusFragment();
         listFragment=new listFragment();
 
-        drawable_button=(ImageView)findViewById(R.id.drawableButton);
+        //drawable_button=(ImageView)findViewById(R.id.drawableButton);
 
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.flFragment, mapFragment).commitAllowingStateLoss();
@@ -59,14 +85,85 @@ public class MainActivity extends AppCompatActivity {
         clickHandler(findViewById(R.id.ll2));
 
         //-----------여기!!!!------------
-        drawable_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
+        //drawable_button.setOnClickListener(new View.OnClickListener() {
+        //    @Override
+        //    public void onClick(View v) {
+        //        Toast.makeText(getApplicationContext(),"test",Toast.LENGTH_SHORT).show();
+        //    }
+        //});
         //-----------여기!!!!------------
     }
+
+
+    //--------------------------------------드로어------------------------------
+    public void setNavigationBar(){
+        drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
+        navigationView = (NavigationView)findViewById(R.id.navigationView);
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_format_list_bulleted_24);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFFFFF")));
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                menuItem.setChecked(true);
+                drawerLayout.closeDrawers();
+                int id = menuItem.getItemId();
+                if(id == R.id.item_logout) {
+                    //Logout activity 로 이동
+                    //Intent intent = new Intent(getApplicationContext(), LogOut.class);
+                    //startActivity(intent);
+                }
+                else if (id == R.id.item_setting) {
+                    //Setting activity 로 이동
+                    //Intent intent = new Intent(getApplicationContext(), Setting.class);
+                    //startActivity(intent);
+                }
+                return true;
+            }
+        });
+        LinearLayout ll_navigation_container = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.navigation_item, null);
+        ll_navigation_container.setBackground(getResources().getDrawable(R.color.main_color));
+        ll_navigation_container.setPadding(30, 70, 30, 50);
+        ll_navigation_container.setOrientation(LinearLayout.VERTICAL);
+        ll_navigation_container.setGravity(Gravity.BOTTOM);
+        ll_navigation_container.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+        final String[] username = {""};
+        final TextView tv_user_email = new TextView(this);
+        tv_user_email.setTextSize(20);
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
+        String uid = firebaseUser.getUid();
+        firebaseDatabase.getReference("users").child(uid).addValueEventListener(new ValueEventListener() {
+            @Override public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot : snapshot.getChildren())
+                    if(dataSnapshot.getKey().equals("name")) {
+                        username[0] = dataSnapshot.getValue().toString();
+                        tv_user_email.setText(username[0] + " 님"); } }
+                        @Override public void onCancelled(@NonNull DatabaseError error) { }
+        });
+        tv_user_email.setText(firebaseUser.getEmail());
+
+
+        ll_navigation_container.addView(tv_user_email);
+        navigationView.addHeaderView(ll_navigation_container);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case android.R.id.home :
+            {
+                drawerLayout.openDrawer(GravityCompat.START);
+                return true;
+            }
+            default:
+                return super.onOptionsItemSelected(item); }
+    }
+
 
     public void clickHandler(View view) {
         fragmentTransaction = fragmentManager.beginTransaction();
