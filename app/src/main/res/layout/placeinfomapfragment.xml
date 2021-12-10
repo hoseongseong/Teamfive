@@ -50,7 +50,7 @@
                 android:id="@+id/placeText2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="장소 위치 보기"
+                android:text="추억 사진 보기"
                 android:textColor="#000000"
                 android:fontFamily="@font/fontlight"
                 android:textSize="20dp"/>
@@ -58,7 +58,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
-                android:src="@drawable/ic_baseline_map_24"
+                android:src="@drawable/ic_baseline_insert_photo_24"
                 android:clickable="true" />
         </LinearLayout>
 
@@ -75,13 +75,11 @@
         android:layout_marginBottom="10dp"
         android:layout_gravity="left"
         >
-        <ImageView
-            android:id="@+id/place_img"
+        <com.naver.maps.map.MapView
+            android:id="@+id/map_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:clickable="true"
-            android:src="@drawable/ic_launcher_foreground" />
+            android:layout_height="match_parent">
+        </com.naver.maps.map.MapView>
 
     </androidx.cardview.widget.CardView>
 

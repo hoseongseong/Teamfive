@@ -104,7 +104,7 @@ public class PlaceInfoFragment extends Fragment {
 
                     LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                     layoutParams.leftMargin = 5;
-                    layoutParams.rightMargin = 15;
+                    layoutParams.rightMargin = 5;
                     LinearLayout ll = new LinearLayout(context);
                     ll.setBackground(ContextCompat.getDrawable(context, R.drawable.round_background));
                     ll.setPadding(20, 10, 10, 10);
@@ -113,16 +113,21 @@ public class PlaceInfoFragment extends Fragment {
                     ll.setOrientation(LinearLayout.HORIZONTAL);
                     ll.setLayoutParams(layoutParams);
 
+                    Typeface typeface = getResources().getFont(R.font.fontlight);
+
                     LinearLayout.LayoutParams layoutParams2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1);
                     layoutParams2.rightMargin = 5;
                     TextView tv = new TextView(context);
                     tv.setTextColor(Color.BLACK);
-                    tv.setTextSize(13);
+                    tv.setTextSize(20);
                     tv.setText(tag.get(i));
                     tv.setLayoutParams(layoutParams2);
-                    tv.setTypeface(null, Typeface.BOLD);
+                    tv.setTypeface(typeface);
 
-                    place_with.addView(tv);
+
+                    ll.addView(tv);
+
+                    place_with.addView(ll);
                 }
             }
 

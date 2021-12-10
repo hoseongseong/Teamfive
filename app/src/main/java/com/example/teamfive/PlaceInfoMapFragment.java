@@ -1,0 +1,270 @@
+package com.example.teamfive;
+
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.net.Uri;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+
+import com.bumptech.glide.Glide;
+import com.example.teamfive.Notification.APIService;
+import com.example.teamfive.Notification.Client;
+import com.example.teamfive.Notification.MyResponse;
+import com.example.teamfive.Notification.NotificationData;
+import com.example.teamfive.Notification.SendData;
+import com.example.teamfive.Notification.Token;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.naver.maps.geometry.LatLng;
+import com.naver.maps.map.CameraPosition;
+import com.naver.maps.map.CameraUpdate;
+import com.naver.maps.map.MapView;
+import com.naver.maps.map.NaverMap;
+import com.naver.maps.map.OnMapReadyCallback;
+import com.naver.maps.map.overlay.LocationOverlay;
+import com.naver.maps.map.overlay.Marker;
+import com.naver.maps.map.overlay.Overlay;
+import com.naver.maps.map.overlay.OverlayImage;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class PlaceInfoMapFragment extends Fragment implements OnMapReadyCallback {
+
+    private View view;
+    private Context context;
+
+    LatLng curruent_location;
+
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
+    private StorageReference submitProfile;
+
+    private FirebaseDatabase database=FirebaseDatabase.getInstance();
+    private DatabaseReference db=database.getReference();
+
+    private FirebaseAuth mFirebaseAuth;
+    String user_id;
+
+    TextView place_name;
+    TextView place_info;
+    TextView place_time;
+
+    LinearLayout place_with;
+
+    LocationManager locationManager;
+    LocationListener locationListener;
+
+    ArrayList<String> tag = new ArrayList<>();
+
+    String place_id;
+
+    private static NaverMap naverMap;
+    private MapView mapView;
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        context = getActivity();
+        view = inflater.inflate(R.layout.placeinfomapfragment, container, false);
+
+        mapView = (MapView) view.findViewById(R.id.map_view);
+        mapView.onCreate(savedInstanceState);
+        mapView.getMapAsync(this);
+
+        init();
+
+        upload();
+
+        return view;
+    }
+
+    public void init() {
+
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        place_id=getArguments().getString("place_id");
+        user_id=mFirebaseAuth.getCurrentUser().getUid();
+
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+
+        place_name = (view).findViewById(R.id.place_name);
+        place_info = (view).findViewById(R.id.place_info);
+        place_time = (view).findViewById(R.id.place_time);
+        place_with = (view).findViewById(R.id.place_with);
+
+
+    }
+
+    public void upload() {
+        db.child("Itemlist").child(user_id).child(place_id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                PlaceItem item=snapshot.getValue(PlaceItem.class);
+                String plc_name=item.getName();
+                place_name.setText(plc_name);
+                place_info.setText(item.getInfo());
+                place_time.setText(item.getTime());
+
+                tag=item.getTag();
+
+                for(int i=0;i<tag.size();i++) {
+
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    layoutParams.leftMargin = 5;
+                    layoutParams.rightMargin = 5;
+                    LinearLayout ll = new LinearLayout(context);
+                    ll.setBackground(ContextCompat.getDrawable(context, R.drawable.round_background));
+                    ll.setPadding(20, 10, 10, 10);
+                    ll.setGravity(Gravity.CENTER_VERTICAL);
+                    ll.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.white)));
+                    ll.setOrientation(LinearLayout.HORIZONTAL);
+                    ll.setLayoutParams(layoutParams);
+
+                    Typeface typeface = getResources().getFont(R.font.fontlight);
+
+                    LinearLayout.LayoutParams layoutParams2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1);
+                    layoutParams2.rightMargin = 5;
+                    TextView tv = new TextView(context);
+                    tv.setTextColor(Color.BLACK);
+                    tv.setTextSize(20);
+                    tv.setText(tag.get(i));
+                    tv.setLayoutParams(layoutParams2);
+                    tv.setTypeface(typeface);
+
+
+                    ll.addView(tv);
+
+                    place_with.addView(ll);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
+    }
+
+    @Override
+    public void onMapReady(@NonNull NaverMap naverMap) {
+        this.naverMap = naverMap;
+
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(@NonNull Location location) {
+                updatelocation(location);
+
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(@NonNull String provider) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(@NonNull String provider) {
+
+            }
+        };
+
+        LocationManager locationManager = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
+
+        String locationProvider;
+        locationProvider = LocationManager.GPS_PROVIDER;
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        locationManager.requestLocationUpdates(locationProvider, 1, 1, locationListener);
+        locationProvider=LocationManager.NETWORK_PROVIDER;
+        locationManager.requestLocationUpdates(locationProvider,1,1,locationListener);
+
+        db.child("Itemlist").child(user_id).child(place_id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                PlaceItem item = snapshot.getValue(PlaceItem.class);
+
+                LatLng latLng = new LatLng(item.getLatitude(),item.getLongitude());
+                Marker marker=new Marker();
+                marker.setTag(item);
+                marker.setIcon(OverlayImage.fromResource(R.drawable.bingkamarker));
+                marker.setWidth(110);
+                marker.setHeight(140);
+                marker.setHideCollidedMarkers(true);
+                marker.setPosition(latLng);
+                marker.setMap(naverMap);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+    public void updatelocation(Location location) {
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+
+        curruent_location = new LatLng(latitude,longitude);
+
+        CameraPosition cameraPosition=new CameraPosition(
+                new LatLng(latitude,longitude),15
+        );
+        naverMap.setCameraPosition(cameraPosition);
+        CameraUpdate cameraUpdate = CameraUpdate.zoomTo(15);
+        naverMap.moveCamera(cameraUpdate);
+
+        LocationOverlay locationOverlay = naverMap.getLocationOverlay();
+        locationOverlay.setVisible(true);
+        locationOverlay.setPosition(curruent_location);
+
+
+    }
+}

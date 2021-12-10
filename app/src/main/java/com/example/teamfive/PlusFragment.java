@@ -145,6 +145,8 @@ public class PlusFragment extends AppCompatActivity{
                 ll.setOrientation(LinearLayout.HORIZONTAL);
                 ll.setLayoutParams(layoutParams);
 
+                Typeface typeface = getResources().getFont(R.font.fontlight);
+
                 LinearLayout.LayoutParams layoutParams2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1);
                 layoutParams2.rightMargin = 5;
                 TextView tv = new TextView(PlusFragment.this);
@@ -152,7 +154,7 @@ public class PlusFragment extends AppCompatActivity{
                 tv.setTextSize(13);
                 tv.setText(tag);
                 tv.setLayoutParams(layoutParams2);
-                tv.setTypeface(null, Typeface.BOLD);
+                tv.setTypeface(typeface);
 
                 ll.addView(tv);
 
