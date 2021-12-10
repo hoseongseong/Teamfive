@@ -1,16 +1,22 @@
 package com.example.teamfive;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
@@ -25,6 +31,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.naver.maps.map.MapView;
+
+import java.util.ArrayList;
 
 public class PlaceInfoFragment extends Fragment {
 
@@ -43,6 +51,12 @@ public class PlaceInfoFragment extends Fragment {
 
     TextView place_name;
     ImageView place_img;
+    TextView place_info;
+    TextView place_time;
+
+    LinearLayout place_with;
+
+    ArrayList<String> tag = new ArrayList<>();
 
     String place_id;
 
@@ -69,6 +83,9 @@ public class PlaceInfoFragment extends Fragment {
 
         place_name = (view).findViewById(R.id.place_name);
         place_img = (view).findViewById(R.id.place_img);
+        place_info = (view).findViewById(R.id.place_info);
+        place_time = (view).findViewById(R.id.place_time);
+        place_with = (view).findViewById(R.id.place_with);
     }
 
     public void upload() {
@@ -78,6 +95,35 @@ public class PlaceInfoFragment extends Fragment {
                 PlaceItem item=snapshot.getValue(PlaceItem.class);
                 String plc_name=item.getName();
                 place_name.setText(plc_name);
+                place_info.setText(item.getInfo());
+                place_time.setText(item.getTime());
+
+                tag=item.getTag();
+
+                for(int i=0;i<tag.size();i++) {
+
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    layoutParams.leftMargin = 5;
+                    layoutParams.rightMargin = 15;
+                    LinearLayout ll = new LinearLayout(context);
+                    ll.setBackground(ContextCompat.getDrawable(context, R.drawable.round_background));
+                    ll.setPadding(20, 10, 10, 10);
+                    ll.setGravity(Gravity.CENTER_VERTICAL);
+                    ll.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.white)));
+                    ll.setOrientation(LinearLayout.HORIZONTAL);
+                    ll.setLayoutParams(layoutParams);
+
+                    LinearLayout.LayoutParams layoutParams2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1);
+                    layoutParams2.rightMargin = 5;
+                    TextView tv = new TextView(context);
+                    tv.setTextColor(Color.BLACK);
+                    tv.setTextSize(13);
+                    tv.setText(tag.get(i));
+                    tv.setLayoutParams(layoutParams2);
+                    tv.setTypeface(null, Typeface.BOLD);
+
+                    place_with.addView(tv);
+                }
             }
 
             @Override
