@@ -107,7 +107,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceViewHol
         holder.ll_place.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PlaceInfoMapFragment placeInfoFragment = new PlaceInfoMapFragment();
+                PlaceInfoFragment placeInfoFragment = new PlaceInfoFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString("place_id",placelist.get(position));
                 placeInfoFragment.setArguments(bundle);

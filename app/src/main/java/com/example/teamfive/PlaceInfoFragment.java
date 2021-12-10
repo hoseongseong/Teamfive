@@ -56,6 +56,8 @@ public class PlaceInfoFragment extends Fragment {
 
     LinearLayout place_with;
 
+    LinearLayout place_change;
+
     ArrayList<String> tag = new ArrayList<>();
 
     String place_id;
@@ -86,6 +88,19 @@ public class PlaceInfoFragment extends Fragment {
         place_info = (view).findViewById(R.id.place_info);
         place_time = (view).findViewById(R.id.place_time);
         place_with = (view).findViewById(R.id.place_with);
+
+        place_change = (view).findViewById(R.id.change_frame);
+
+        place_change.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PlaceInfoMapFragment placeInfoFragment = new PlaceInfoMapFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("place_id",place_id);
+                placeInfoFragment.setArguments(bundle);
+                ((MainActivity)context).changeFragment(placeInfoFragment);
+            }
+        });
     }
 
     public void upload() {
