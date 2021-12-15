@@ -246,12 +246,26 @@ public class PlaceInfoMapFragment extends Fragment implements OnMapReadyCallback
                 marker.setPosition(latLng);
                 marker.setMap(naverMap);
 
-                CameraPosition cameraPosition=new CameraPosition(
-                        latLng,15
-                );
-                naverMap.setCameraPosition(cameraPosition);
-                CameraUpdate cameraUpdate = CameraUpdate.zoomTo(15);
-                naverMap.moveCamera(cameraUpdate);
+                db.child("Setting").child(user_id).child("zoom").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        int zoom = snapshot.getValue(Integer.class);
+
+                        CameraPosition cameraPosition=new CameraPosition(
+                                latLng,zoom
+                        );
+                        naverMap.setCameraPosition(cameraPosition);
+                        CameraUpdate cameraUpdate = CameraUpdate.zoomTo(zoom);
+                        naverMap.moveCamera(cameraUpdate);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
 
             }
 

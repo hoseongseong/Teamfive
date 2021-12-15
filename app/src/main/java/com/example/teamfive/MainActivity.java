@@ -111,14 +111,15 @@ public class MainActivity extends AppCompatActivity {
                 drawerLayout.closeDrawers();
                 int id = menuItem.getItemId();
                 if(id == R.id.item_logout) {
-                    //Logout activity 로 이동
-                    //Intent intent = new Intent(getApplicationContext(), LogOut.class);
-                    //startActivity(intent);
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(intent);
                 }
                 else if (id == R.id.item_setting) {
-                    //Setting activity 로 이동
-                    //Intent intent = new Intent(getApplicationContext(), Setting.class);
-                    //startActivity(intent);
+                    Intent intent = new Intent(getApplicationContext(), SettingActivity.class);
+                    startActivity(intent);
+                }
+                else if(id==R.id.item_manager) {
+
                 }
                 return true;
             }

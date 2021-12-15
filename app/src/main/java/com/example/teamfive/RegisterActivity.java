@@ -29,6 +29,8 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText mEtEmail, mEtPwd;
     private Button mBtnRegister;
 
+    private DatabaseReference db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Users");
+        db = FirebaseDatabase.getInstance().getReference();
 
         mEtEmail = findViewById(R.id.et_email);
         mEtPwd = findViewById(R.id.et_pwd);
@@ -73,6 +76,12 @@ public class RegisterActivity extends AppCompatActivity {
 
                                         //  setValue : database에 insert (삽입) 행위
                                         mDatabaseRef.child(firebaseUser.getUid()).setValue(account);
+
+                                        int a=30;
+                                        int b=15;
+
+                                        db.child("Setting").child(firebaseUser.getUid()).child("meter").setValue(a);
+                                        db.child("Setting").child(firebaseUser.getUid()).child("zoom").setValue(b);
 
                                         Toast.makeText(RegisterActivity.this, "인증 이메일이 전송되었습니다.\n확인 후 로그인 해주세요!", Toast.LENGTH_LONG).show();
                                         finish();

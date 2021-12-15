@@ -13,8 +13,15 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraPosition;
+import com.naver.maps.map.CameraUpdate;
 import com.naver.maps.map.MapView;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
@@ -42,6 +49,12 @@ public class plusmapActivity extends AppCompatActivity implements OnMapReadyCall
 
     Marker marker;
 
+    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference db = firebaseDatabase.getReference();
+
+    private FirebaseAuth mFirebaseAuth;
+    String user_id;
+
 
     private double nowlatitude,nowlongitude;
 
@@ -49,6 +62,9 @@ public class plusmapActivity extends AppCompatActivity implements OnMapReadyCall
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plusmap);
+
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        user_id=mFirebaseAuth.getCurrentUser().getUid();
 
         address = (TextView)findViewById(R.id.address);
         search = (EditText)findViewById(R.id.search);
@@ -87,10 +103,24 @@ public class plusmapActivity extends AppCompatActivity implements OnMapReadyCall
                 double lat = addr.getLatitude();
                 double lon = addr.getLongitude();
 
-                CameraPosition cameraPosition=new CameraPosition(
-                        new LatLng(lat,lon),14
-                );
-                naverMap.setCameraPosition(cameraPosition);
+                db.child("Setting").child(user_id).child("zoom").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        int zoom = snapshot.getValue(Integer.class);
+
+                        CameraPosition cameraPosition=new CameraPosition(
+                                new LatLng(lat,lon),zoom
+                        );
+                        naverMap.setCameraPosition(cameraPosition);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
 
                 marker.setHideCollidedMarkers(true);
 
@@ -116,10 +146,25 @@ public class plusmapActivity extends AppCompatActivity implements OnMapReadyCall
         gpsTracker = new GpsTracker(this);
         nowlatitude= gpsTracker.latitude;
         nowlongitude=gpsTracker.longitude;
-        CameraPosition cameraPosition=new CameraPosition(
-                new LatLng(nowlatitude,nowlongitude),14
-        );
-        naverMap.setCameraPosition(cameraPosition);
+
+        db.child("Setting").child(user_id).child("zoom").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                int zoom = snapshot.getValue(Integer.class);
+
+                CameraPosition cameraPosition=new CameraPosition(
+                        new LatLng(nowlatitude,nowlongitude),zoom
+                );
+                naverMap.setCameraPosition(cameraPosition);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
         marker=new Marker();
         marker.setHideCollidedMarkers(true);

@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
         <activity
+            android:name=".SettingActivity"
+            android:exported="true" />
+        <activity
             android:name=".deletepage"
             android:theme="@android:style/Theme.Dialog" />
 
@@ -27,7 +30,7 @@
             android:name=".plusmapActivity"
             android:exported="true" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".LoginActivity" />
         <activity
             android:name=".PlusFragment"
             android:exported="true" />
