@@ -5,9 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.PointF;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
@@ -15,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,18 +31,23 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.example.teamfive.Notification.APIService;
 import com.example.teamfive.Notification.Client;
 import com.example.teamfive.Notification.MyResponse;
 import com.example.teamfive.Notification.NotificationData;
 import com.example.teamfive.Notification.SendData;
 import com.example.teamfive.Notification.Token;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraPosition;
 import com.naver.maps.map.CameraUpdate;
@@ -52,9 +61,14 @@ import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.Overlay;
 import com.naver.maps.map.overlay.OverlayImage;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -67,6 +81,10 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
 
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int PERMISSIONS_REQUEST_CODE = 100;
+
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
+    private StorageReference submitProfile;
 
     private static NaverMap naverMap;
     private MapView mapView;
@@ -89,6 +107,13 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
     InfoWindow infoWindow;
 
     LinearLayout ll;
+    ImageView ll_cancer;
+
+    ImageView map_img;
+    TextView map_name;
+    TextView map_location;
+    TextView map_date;
+    TextView map_address;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -99,7 +124,6 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
 
         init();
 
-        ll=(LinearLayout)view.findViewById(R.id.map_ll);
         mapView = (MapView) view.findViewById(R.id.map_view);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
@@ -114,6 +138,30 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         user_id=mFirebaseAuth.getCurrentUser().getUid();
+
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+
+
+        ll=(LinearLayout)view.findViewById(R.id.map_ll);
+        ll_cancer=(ImageView)view.findViewById(R.id.cancel_ll);
+
+        map_img=(ImageView)view.findViewById(R.id.map_img);
+        map_name=(TextView)view.findViewById(R.id.map_name);
+        map_location=(TextView)view.findViewById(R.id.map_location);
+        map_date=(TextView)view.findViewById(R.id.map_date);
+        map_address=(TextView)view.findViewById(R.id.map_address);
+
+        ll_cancer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LinearLayout.LayoutParams params
+                        = (LinearLayout.LayoutParams) ll.getLayoutParams();
+                params.weight = 1000;
+                ll.setLayoutParams(params);
+
+            }
+        });
 
 
         placelist = new ArrayList();
@@ -273,6 +321,8 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
 
                     db.child("Itemlist").child(user_id).child(sn.getKey()).child("visit").setValue(0);
 
+                    String key = sn.getKey();
+
                     LatLng latLng = new LatLng(item.getLatitude(),item.getLongitude());
                     Marker marker=new Marker();
                     marker.setTag(item);
@@ -289,6 +339,88 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
                                     = (LinearLayout.LayoutParams) ll.getLayoutParams();
                             params.weight = 2;
                             ll.setLayoutParams(params);
+
+                            GpsTracker gps = new GpsTracker(context);
+
+                            double nowlatitude = gps.latitude;
+                            double nowlongitude = gps.longitude;
+
+                            db.child("Itemlist").child(user_id).child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    PlaceItem item=snapshot.getValue(PlaceItem.class);
+                                    String plc_name=item.getName();
+                                    map_name.setText(plc_name);
+
+                                    Calendar posttime = Calendar.getInstance();
+
+                                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                    try {
+                                        posttime.setTime(format.parse(item.getTime()));
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    Calendar current = Calendar.getInstance();
+
+                                    long diff = (current.getTimeInMillis() - posttime.getTimeInMillis())/1000;
+
+                                    if(diff>31536000) {
+                                        map_date.setText(""+diff/31536000+"년 전");
+                                    }
+
+                                    else if(diff>2678400) {
+                                        map_date.setText(""+diff/2678400+"달 전");
+                                    }
+
+                                    else if(diff>604800) {
+                                        map_date.setText(""+diff/604800+"주 전");
+                                    }
+
+                                    else if(diff>86400) {
+                                        map_date.setText(""+diff/86400+"일 전");
+                                    }
+
+                                    else if(diff>3600) {
+                                        map_date.setText(""+diff/3600+"시간 전");
+                                    }
+
+                                    else if(diff>60) {
+                                        map_date.setText(""+diff/60+"분 전");
+                                    }
+
+                                    else {
+                                        map_date.setText(""+diff+"초 전");
+                                    }
+
+                                    double distance1 = ruler(item.getLatitude(),item.getLongitude(),nowlatitude,nowlongitude);
+                                    int distance = (int)distance1;
+                                    map_location.setText(""+distance+"m");
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+
+                            map_address.setText(getCurrentAddress(nowlatitude,nowlongitude));
+
+                            submitProfile = storageReference.child(user_id+"/"+key);
+                            submitProfile.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    Glide.with(map_img)
+                                            .load(uri)
+                                            .into(map_img);
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+
 
                             Marker marker = (Marker) overlay;
 
@@ -420,6 +552,28 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
         distance = R*c*1000;
 
         return distance;
+    }
+
+    private String getCurrentAddress(double latitude, double longitude) {
+        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+        List<Address> addresses = null;
+
+        try {
+            addresses = geocoder.getFromLocation(
+                    latitude,
+                    longitude,
+                    7
+            );
+        }catch (IOException ioException){
+            return "지오코더 서비스 사용불가";
+        }catch (IllegalArgumentException illegalArgumentException){
+            return "잘못된 GPS 좌표";
+        }
+        if(addresses==null || addresses.size()==0){
+            return "주소 미발견";
+        }
+        Address address = addresses.get(0);
+        return address.getAddressLine(0).toString();
     }
 
 }

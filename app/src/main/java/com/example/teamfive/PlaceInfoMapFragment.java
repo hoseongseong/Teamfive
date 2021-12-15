@@ -6,6 +6,8 @@ import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -54,9 +56,12 @@ import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.Overlay;
 import com.naver.maps.map.overlay.OverlayImage;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -123,9 +128,8 @@ public class PlaceInfoMapFragment extends Fragment implements OnMapReadyCallback
         storageReference = storage.getReference();
 
         place_name = (view).findViewById(R.id.place_name);
-        place_info = (view).findViewById(R.id.place_info);
         place_time = (view).findViewById(R.id.place_time);
-        place_with = (view).findViewById(R.id.place_with);
+        place_info = (view).findViewById(R.id.place_info);
         place_change = (view).findViewById(R.id.change_frame);
 
         place_change.setOnClickListener(new View.OnClickListener() {
@@ -147,42 +151,20 @@ public class PlaceInfoMapFragment extends Fragment implements OnMapReadyCallback
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 PlaceItem item=snapshot.getValue(PlaceItem.class);
-                String plc_name=item.getName();
-                place_name.setText(plc_name);
-                place_info.setText(item.getInfo());
-                place_time.setText(item.getTime());
 
-                tag=item.getTag();
+                place_name.setText(item.getName());
 
-                for(int i=0;i<tag.size();i++) {
+                place_info.setText(getCurrentAddress(item.getLatitude(),item.getLongitude()));
 
-                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    layoutParams.leftMargin = 5;
-                    layoutParams.rightMargin = 5;
-                    LinearLayout ll = new LinearLayout(context);
-                    ll.setBackground(ContextCompat.getDrawable(context, R.drawable.round_background));
-                    ll.setPadding(20, 10, 10, 10);
-                    ll.setGravity(Gravity.CENTER_VERTICAL);
-                    ll.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.white)));
-                    ll.setOrientation(LinearLayout.HORIZONTAL);
-                    ll.setLayoutParams(layoutParams);
+                GpsTracker gpsTrcker = new GpsTracker(context);
 
-                    Typeface typeface = getResources().getFont(R.font.fontlight);
+                double nowlatitude = gpsTrcker.latitude;
+                double nowlongitude = gpsTrcker.longitude;
 
-                    LinearLayout.LayoutParams layoutParams2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1);
-                    layoutParams2.rightMargin = 5;
-                    TextView tv = new TextView(context);
-                    tv.setTextColor(Color.BLACK);
-                    tv.setTextSize(20);
-                    tv.setText(tag.get(i));
-                    tv.setLayoutParams(layoutParams2);
-                    tv.setTypeface(typeface);
+                double distance1 = ruler(item.getLatitude(),item.getLongitude(),nowlatitude,nowlongitude);
+                int distance = (int)distance1;
+                place_time.setText(""+distance+"m");
 
-
-                    ll.addView(tv);
-
-                    place_with.addView(ll);
-                }
             }
 
             @Override
@@ -280,5 +262,46 @@ public class PlaceInfoMapFragment extends Fragment implements OnMapReadyCallback
         locationOverlay.setPosition(curruent_location);
 
 
+    }
+
+    private double ruler(double first_latitude,double first_longitude,double second_latitude,double second_longitude)
+    {
+        double distance=0.0;
+
+        double R = 6372.8;
+
+        double dLat = Math.toRadians(first_latitude-second_latitude);
+        double dLon = Math.toRadians(first_longitude-second_longitude);
+        double fr_latitude = Math.toRadians(first_latitude);
+        double sr_latitude = Math.toRadians(second_latitude);
+
+        double tempt = Math.pow(Math.sin(dLat/2),2)+Math.pow(Math.sin(dLon/2),2)*Math.cos(fr_latitude)*Math.cos(sr_latitude);
+        double c = 2*Math.asin(Math.sqrt(tempt));
+
+        distance = R*c*1000;
+
+        return distance;
+    }
+
+    private String getCurrentAddress(double latitude, double longitude) {
+        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+        List<Address> addresses = null;
+
+        try {
+            addresses = geocoder.getFromLocation(
+                    latitude,
+                    longitude,
+                    7
+            );
+        }catch (IOException ioException){
+            return "지오코더 서비스 사용불가";
+        }catch (IllegalArgumentException illegalArgumentException){
+            return "잘못된 GPS 좌표";
+        }
+        if(addresses==null || addresses.size()==0){
+            return "주소 미발견";
+        }
+        Address address = addresses.get(0);
+        return address.getAddressLine(0).toString();
     }
 }

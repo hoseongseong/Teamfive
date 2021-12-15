@@ -161,7 +161,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginRight="5dp"
-                    android:src="@drawable/bingka"/>
+                    android:src="@drawable/clock"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -205,7 +205,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginRight="5dp"
-                    android:src="@drawable/bingka"/>
+                    android:src="@drawable/ic_baseline_people_24"/>
 
                 <TextView
                     android:layout_width="wrap_content"
