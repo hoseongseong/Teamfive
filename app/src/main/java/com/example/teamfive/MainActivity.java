@@ -123,16 +123,19 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+
         LinearLayout ll_navigation_container = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.navigation_item, null);
         ll_navigation_container.setBackground(getResources().getDrawable(R.color.main_color));
         ll_navigation_container.setPadding(30, 70, 30, 50);
         ll_navigation_container.setOrientation(LinearLayout.VERTICAL);
         ll_navigation_container.setGravity(Gravity.BOTTOM);
-        ll_navigation_container.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        ll_navigation_container.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         final String[] username = {""};
         final TextView tv_user_email = new TextView(this);
         tv_user_email.setTextSize(20);
+
         mFirebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
         String uid = firebaseUser.getUid();
@@ -144,11 +147,9 @@ public class MainActivity extends AppCompatActivity {
                         tv_user_email.setText(username[0] + " 님"); } }
                         @Override public void onCancelled(@NonNull DatabaseError error) { }
         });
+
         tv_user_email.setText(firebaseUser.getEmail());
 
-
-        ll_navigation_container.addView(tv_user_email);
-        navigationView.addHeaderView(ll_navigation_container);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
