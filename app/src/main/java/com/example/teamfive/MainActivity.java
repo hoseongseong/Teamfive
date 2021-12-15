@@ -200,4 +200,21 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.flFragment, fragment).commitAllowingStateLoss();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+
+                changeFragment(mapFragment);
+            }
+        }
+    }
+
+    public void del(String place_id) {
+        Intent intent = new Intent(this,deletepage.class);
+        intent.putExtra("place_id",place_id);
+        startActivityForResult(intent,1);
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.example.teamfive;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -62,6 +63,9 @@ public class PlaceInfoFragment extends Fragment {
 
     String place_id;
 
+    ImageView del;
+    ImageView edit;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         context = getActivity();
@@ -88,6 +92,8 @@ public class PlaceInfoFragment extends Fragment {
         place_info = (view).findViewById(R.id.place_info);
         place_time = (view).findViewById(R.id.place_time);
         place_with = (view).findViewById(R.id.place_with);
+        del=(view).findViewById(R.id.del);
+
 
         place_change = (view).findViewById(R.id.change_frame);
 
@@ -99,6 +105,13 @@ public class PlaceInfoFragment extends Fragment {
                 bundle.putString("place_id",place_id);
                 placeInfoFragment.setArguments(bundle);
                 ((MainActivity)context).changeFragment(placeInfoFragment);
+            }
+        });
+
+        del.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)context).del(place_id);
             }
         });
     }
@@ -163,8 +176,9 @@ public class PlaceInfoFragment extends Fragment {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                place_name.setText(""+e);
+
             }
         });
     }
+
 }

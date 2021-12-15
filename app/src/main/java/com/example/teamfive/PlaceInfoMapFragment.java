@@ -102,6 +102,8 @@ public class PlaceInfoMapFragment extends Fragment implements OnMapReadyCallback
     private static NaverMap naverMap;
     private MapView mapView;
 
+    ImageView del;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         context = getActivity();
@@ -118,6 +120,7 @@ public class PlaceInfoMapFragment extends Fragment implements OnMapReadyCallback
         return view;
     }
 
+
     public void init() {
 
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -131,6 +134,7 @@ public class PlaceInfoMapFragment extends Fragment implements OnMapReadyCallback
         place_time = (view).findViewById(R.id.place_time);
         place_info = (view).findViewById(R.id.place_info);
         place_change = (view).findViewById(R.id.change_frame);
+        del=(view).findViewById(R.id.del);
 
         place_change.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,6 +144,13 @@ public class PlaceInfoMapFragment extends Fragment implements OnMapReadyCallback
                 bundle.putString("place_id",place_id);
                 placeInfoFragment.setArguments(bundle);
                 ((MainActivity)context).changeFragment(placeInfoFragment);
+            }
+        });
+
+        del.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)context).del(place_id);
             }
         });
 

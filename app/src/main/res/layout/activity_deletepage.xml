@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content">
+    tools:context=".deletepage">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="#E8F0FF"
+        android:padding="5dp"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/bingka"/>
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:fontFamily="@font/fontlight"
+            android:layout_marginLeft="5dp"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:text="장소 삭제" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="10dp"
+        android:textColor="#000000"
+        android:fontFamily="@font/fontlight"
+        android:textSize="20sp"
+        android:text="해당 장소를 삭제하시겠습니까?" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:background="#E8F0FF"
+            android:layout_weight="1"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/btn_ok"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:fontFamily="@font/fontlight"
+                android:clickable="true"
+                android:onClick="del_okay"
+                android:text="삭제" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:background="#E8F0FF"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/btn_nook"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="#000000"
+                android:fontFamily="@font/fontlight"
+                android:textSize="20sp"
+                android:clickable="true"
+                android:onClick="del_notokay"
+                android:text="취소" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

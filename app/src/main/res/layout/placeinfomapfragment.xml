@@ -16,11 +16,9 @@
         android:layout_height="match_parent"
         android:layout_weight="6"
         android:orientation="vertical">
-
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:orientation="horizontal">
 
             <ImageView
@@ -33,12 +31,33 @@
                 android:id="@+id/place_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="장소이름"
                 android:fontFamily="@font/fontlight"
+                android:text="장소이름"
                 android:textColor="#a2b4d8"
-                android:textStyle="bold"
-                android:textSize="30dp"/>
+                android:layout_gravity="center"
+                android:textSize="30dp"
+                android:layout_marginRight="10dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:gravity="right"
+                >
+
+                <ImageView
+                    android:id="@+id/del"
+                    android:clickable="true"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/ic_baseline_delete_forever_24" />
+
+            </LinearLayout>
+
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/change_frame"
             android:layout_width="wrap_content"
