@@ -100,7 +100,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceViewHol
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                holder.name_place.setText(""+e);
+
             }
         });
 

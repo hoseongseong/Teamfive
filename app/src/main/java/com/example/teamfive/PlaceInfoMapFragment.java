@@ -235,6 +235,13 @@ public class PlaceInfoMapFragment extends Fragment implements OnMapReadyCallback
                 marker.setPosition(latLng);
                 marker.setMap(naverMap);
 
+                CameraPosition cameraPosition=new CameraPosition(
+                        latLng,15
+                );
+                naverMap.setCameraPosition(cameraPosition);
+                CameraUpdate cameraUpdate = CameraUpdate.zoomTo(15);
+                naverMap.moveCamera(cameraUpdate);
+
             }
 
             @Override
@@ -250,12 +257,6 @@ public class PlaceInfoMapFragment extends Fragment implements OnMapReadyCallback
 
         curruent_location = new LatLng(latitude,longitude);
 
-        CameraPosition cameraPosition=new CameraPosition(
-                new LatLng(latitude,longitude),15
-        );
-        naverMap.setCameraPosition(cameraPosition);
-        CameraUpdate cameraUpdate = CameraUpdate.zoomTo(15);
-        naverMap.moveCamera(cameraUpdate);
 
         LocationOverlay locationOverlay = naverMap.getLocationOverlay();
         locationOverlay.setVisible(true);

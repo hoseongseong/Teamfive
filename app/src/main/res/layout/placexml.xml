@@ -28,7 +28,7 @@
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:clickable="true"
-            android:src="@drawable/ic_launcher_foreground" />
+            android:src="@drawable/bingka" />
 
     </androidx.cardview.widget.CardView>
 
