@@ -10,11 +10,37 @@
 
 
     <com.naver.maps.map.MapView
+        android:layout_weight="1"
         android:id="@+id/map_view"
         android:layout_width="match_parent"
         android:layout_margin="10dp"
-        android:layout_height="500dp">
+        android:layout_height="match_parent">
     </com.naver.maps.map.MapView>
+
+    <LinearLayout
+        android:id="@+id/map_ll"
+        android:layout_weight="2"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/round_background"
+        android:orientation="vertical"
+        >
+
+        <ImageView
+            android:id="@+id/cancel_ll"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/ic_baseline_cancel_24_blue"
+            android:layout_gravity="right"
+            android:layout_margin="5dp"
+            />
+
+
+
+
+
+    </LinearLayout>
 
 
 </LinearLayout>

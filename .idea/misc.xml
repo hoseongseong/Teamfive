@@ -9,6 +9,8 @@
         <entry key="..\:/Users/USER/AndroidStudioProjects/Teamfive/app/src/main/res/drawable-v24/ripple_unbounded.xml" value="0.38229166666666664" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/Teamfive/app/src/main/res/drawable-v24/round_background.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/Teamfive/app/src/main/res/drawable/ic_baseline_add_circle_outline_24.xml" value="0.38229166666666664" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Teamfive/app/src/main/res/drawable/ic_baseline_cancel_24.xml" value="0.3072916666666667" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Teamfive/app/src/main/res/drawable/ic_baseline_cancel_24_blue.xml" value="0.3072916666666667" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/Teamfive/app/src/main/res/drawable/ic_baseline_format_list_bulleted_24.xml" value="0.38229166666666664" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/Teamfive/app/src/main/res/drawable/ic_baseline_insert_photo_24.xml" value="0.38229166666666664" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/Teamfive/app/src/main/res/font/maple.xml" value="0.3574074074074074" />
@@ -18,7 +20,7 @@
         <entry key="..\:/Users/USER/AndroidStudioProjects/Teamfive/app/src/main/res/layout/activity_register.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/Teamfive/app/src/main/res/layout/activity_splash.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/Teamfive/app/src/main/res/layout/listfragment_layout.xml" value="0.36614583333333334" />
-        <entry key="..\:/Users/USER/AndroidStudioProjects/Teamfive/app/src/main/res/layout/mapfragment_layout.xml" value="0.25" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Teamfive/app/src/main/res/layout/mapfragment_layout.xml" value="0.33" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/Teamfive/app/src/main/res/layout/navigation_item.xml" value="0.3234375" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/Teamfive/app/src/main/res/layout/placefragment_layout.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/Teamfive/app/src/main/res/layout/placeinfofragment.xml" value="0.33" />

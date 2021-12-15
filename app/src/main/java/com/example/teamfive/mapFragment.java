@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -87,6 +88,8 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
 
     InfoWindow infoWindow;
 
+    LinearLayout ll;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         context = getActivity();
@@ -96,6 +99,7 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
 
         init();
 
+        ll=(LinearLayout)view.findViewById(R.id.map_ll);
         mapView = (MapView) view.findViewById(R.id.map_view);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
@@ -110,6 +114,7 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         user_id=mFirebaseAuth.getCurrentUser().getUid();
+
 
         placelist = new ArrayList();
 
@@ -279,6 +284,11 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
                     marker.setOnClickListener(new Overlay.OnClickListener() {
                         @Override
                         public boolean onClick(@NonNull Overlay overlay) {
+
+                            LinearLayout.LayoutParams params
+                                    = (LinearLayout.LayoutParams) ll.getLayoutParams();
+                            params.weight = 2;
+                            ll.setLayoutParams(params);
 
                             Marker marker = (Marker) overlay;
 
