@@ -79,7 +79,13 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceViewHol
                 holder.date_place.setText(item.getTime());
                 double distance1 = ruler(item.getLatitude(),item.getLongitude(),nowlatitude,nowlongitude);
                 int distance = (int)distance1;
-                holder.location_place.setText(""+distance+"m");
+                if(distance<1000) {
+                    holder.location_place.setText(""+distance+"m");
+                }
+                else {
+                    distance=distance/1000;
+                    holder.location_place.setText(""+distance+"km");
+                }
             }
 
             @Override

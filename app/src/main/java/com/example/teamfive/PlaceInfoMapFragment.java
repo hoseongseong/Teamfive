@@ -174,7 +174,13 @@ public class PlaceInfoMapFragment extends Fragment implements OnMapReadyCallback
 
                 double distance1 = ruler(item.getLatitude(),item.getLongitude(),nowlatitude,nowlongitude);
                 int distance = (int)distance1;
-                place_time.setText(""+distance+"m");
+                if(distance<1000) {
+                    place_time.setText(""+distance+"m");
+                }
+                else {
+                    distance=distance/1000;
+                    place_time.setText(""+distance+"km");
+                }
 
             }
 

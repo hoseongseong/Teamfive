@@ -394,8 +394,15 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
                                     }
 
                                     double distance1 = ruler(item.getLatitude(),item.getLongitude(),nowlatitude,nowlongitude);
+
                                     int distance = (int)distance1;
-                                    map_location.setText(""+distance+"m");
+                                    if(distance<1000) {
+                                        map_location.setText("" + distance + "m");
+                                    }
+                                    else {
+                                        distance=distance/1000;
+                                        map_location.setText("" + distance + "km");
+                                    }
                                 }
 
                                 @Override
