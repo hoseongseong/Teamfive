@@ -7,5 +7,8 @@
         <item
             android:id="@+id/item_setting"
             android:title="환경설정" />
+        <item
+            android:id="@+id/item_manager"
+            android:title="관리자 모드" />
     </group>
 </menu>

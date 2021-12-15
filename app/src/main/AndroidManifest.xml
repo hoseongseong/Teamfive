@@ -16,6 +16,10 @@
         android:roundIcon="@drawable/bingka"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAs7nUYTFDUnkT9hcy8zfgTIH3NsXVE26s" />
+
         <activity
             android:name=".plusmapActivity"
             android:exported="true" />
