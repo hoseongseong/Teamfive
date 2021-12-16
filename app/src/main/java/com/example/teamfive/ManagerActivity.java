@@ -2,6 +2,8 @@ package com.example.teamfive;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -41,6 +43,10 @@ public class ManagerActivity extends AppCompatActivity implements OnMapReadyCall
     private static NaverMap naverMap;
     private MapView mapView;
 
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
+
 
     GpsTracker gpsTracker;
 
@@ -51,6 +57,7 @@ public class ManagerActivity extends AppCompatActivity implements OnMapReadyCall
     String user_id;
 
     ArrayList<Marker> LIST= new ArrayList<Marker>();
+    ArrayList<String> namelist = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +66,13 @@ public class ManagerActivity extends AppCompatActivity implements OnMapReadyCall
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         user_id=mFirebaseAuth.getCurrentUser().getUid();
+
+        recyclerView = (RecyclerView)findViewById(R.id.rcy);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new ManagerAdapter(namelist,this,user_id);
+        recyclerView.setAdapter(adapter);
 
         mapView = (MapView)findViewById(R.id.map_view);
         mapView.onCreate(savedInstanceState);
@@ -104,9 +118,12 @@ public class ManagerActivity extends AppCompatActivity implements OnMapReadyCall
         db.child("Manager").child(user_id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                namelist.clear();
 
                 for(DataSnapshot sn : snapshot.getChildren()) {
                     String person = sn.getValue(String.class);
+                    namelist.add(person);
+                    adapter.notifyDataSetChanged();
                     try {
                         db.child("Location").child(person).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
@@ -143,6 +160,27 @@ public class ManagerActivity extends AppCompatActivity implements OnMapReadyCall
 
     }
 
+    public void moveCamera(double latitude,double longitude) {
+        db.child("Setting").child(user_id).child("zoom").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                int zoom = snapshot.getValue(Integer.class);
+
+                CameraPosition cameraPosition=new CameraPosition(
+                        new LatLng(latitude,longitude),zoom
+                );
+                naverMap.setCameraPosition(cameraPosition);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
     public void refresh(View view) {
 
         for(int i=0;i<LIST.size();i++)LIST.get(i).setMap(null);
@@ -151,9 +189,12 @@ public class ManagerActivity extends AppCompatActivity implements OnMapReadyCall
         db.child("Manager").child(user_id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                namelist.clear();
 
                 for(DataSnapshot sn : snapshot.getChildren()) {
                     String person = sn.getValue(String.class);
+                    namelist.add(person);
+                    adapter.notifyDataSetChanged();
                     try {
                         db.child("Location").child(person).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override

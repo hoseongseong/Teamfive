@@ -65,15 +65,23 @@
     <LinearLayout
         android:id="@+id/map_ll"
         android:layout_weight="3"
-        android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/round_background"
         android:orientation="vertical"
         >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="25dp"
+            android:fontFamily="@font/fontlight"
+            android:text="관리 명단"
+            android:textColor="#000000"
+            android:textSize="17dp" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_margin="5dp"
+            android:layout_margin="15dp"
             android:id="@+id/rcy"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
