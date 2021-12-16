@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
         <activity
+            android:name=".ManagerActivity"
+            android:exported="true" />
+        <activity
             android:name=".SettingActivity"
             android:exported="true" />
         <activity

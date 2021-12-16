@@ -456,6 +456,10 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
 
         curruent_location = new LatLng(latitude,longitude);
 
+        userLocation user_location = new userLocation(latitude,longitude);
+
+        db.child("Location").child(user_id).setValue(user_location);
+
 
         db.child("Setting").child(user_id).child("zoom").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

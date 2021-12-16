@@ -84,15 +84,6 @@ public class MainActivity extends AppCompatActivity {
 
         clickHandler(findViewById(R.id.ll2));
 
-        //-----------여기!!!!------------
-
-        //drawable_button.setOnClickListener(new View.OnClickListener() {
-        //    @Override
-        //    public void onClick(View v) {
-        //        Toast.makeText(getApplicationContext(),"test",Toast.LENGTH_SHORT).show();
-        //    }
-        //});
-        //-----------여기!!!!------------
     }
 
 
@@ -119,7 +110,8 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
                 else if(id==R.id.item_manager) {
-
+                    Intent intent = new Intent(getApplicationContext(), ManagerActivity.class);
+                    startActivity(intent);
                 }
                 return true;
             }

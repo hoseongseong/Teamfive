@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E8F0FF"
+    android:orientation="vertical"
+    tools:context=".ManagerActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:gravity="center"
+        android:paddingRight="5dp"
+        >
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="종료"
+            android:layout_marginLeft="10dp"
+            android:backgroundTint="#E8F0FF"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:fontFamily="@font/fontlight"
+            android:onClick="out"
+            android:background="@drawable/round_background"/>
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PeriWinkle"
+            android:gravity="center"
+            android:textSize="23dp"
+            android:textColor="#000000"
+            android:layout_gravity="center"
+            android:layout_weight="10"
+            android:fontFamily="@font/fontlight"/>
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            android:clickable="true"
+            android:onClick="refresh"
+            android:src="@drawable/ic_baseline_refresh_24"/>
+
+
+    </LinearLayout>
+
+
+    <com.naver.maps.map.MapView
+        android:id="@+id/map_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:layout_weight="2"></com.naver.maps.map.MapView>
+
+    <LinearLayout
+        android:id="@+id/map_ll"
+        android:layout_weight="3"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/round_background"
+        android:orientation="vertical"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_margin="5dp"
+            android:id="@+id/rcy"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+</LinearLayout>

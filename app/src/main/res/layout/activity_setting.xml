@@ -158,7 +158,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-
                 android:clickable="true"
                 android:gravity="center"
                 android:orientation="horizontal">
@@ -193,6 +192,100 @@
         </LinearLayout>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="290dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="30dp"
+        android:paddingTop="15dp"
+        android:background="@drawable/round_background"
+        android:orientation="vertical"
+        >
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:textSize="18sp"
+            android:layout_marginLeft="25dp"
+            android:textColor="#000000"
+            android:fontFamily="@font/fontlight"
+            android:layout_weight="1"
+            android:text="관리 인원 추가하기"
+            />
+
+        <EditText
+            android:id="@+id/et_email"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:ems="12"
+            android:hint="대상자 E_mail"
+            android:padding="13dp"
+            android:fontFamily="@font/fontlight"
+            android:background="@drawable/background_rounding3"
+            android:inputType="textEmailAddress"
+            android:textColor="#000000"
+            android:textSize="14dp"
+            android:textColorHint="#808080"
+            android:theme="@style/EditTheme" />
+
+        <EditText
+            android:id="@+id/et_pwd"
+            android:layout_width="280dp"
+            android:textSize="14dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:ems="12"
+            android:hint="대상자 비밀번호"
+            android:padding="13dp"
+            android:fontFamily="@font/fontlight"
+            android:background="@drawable/background_rounding3"
+            android:inputType="textEmailAddress"
+            android:textColor="#000000"
+            android:textColorHint="#808080"
+            android:theme="@style/EditTheme" />
+
+        <TextView
+            android:id="@+id/warning"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="25dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/fontlight"
+            android:gravity="right"
+            android:text="E-mail 혹은 비밀번호를 다시 확인해주세요!"
+            android:textColor="#FF0000"
+            android:textSize="0dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="right"
+            android:paddingRight="35dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="추가 하기"
+                android:backgroundTint="#E8F0FF"
+                android:layout_margin="5dp"
+                android:gravity="center"
+                android:fontFamily="@font/fontlight"
+                android:onClick="manager_plus"
+                android:background="@drawable/round_background"/>
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

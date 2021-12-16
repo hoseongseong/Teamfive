@@ -26,7 +26,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private FirebaseAuth mFirebaseAuth;     //파이어베이스 인증
     private DatabaseReference mDatabaseRef; //실시간 데이터베이스
-    private EditText mEtEmail, mEtPwd;
+    private EditText mEtEmail, mEtPwd, name;
     private Button mBtnRegister;
 
     private DatabaseReference db;
@@ -42,6 +42,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         mEtEmail = findViewById(R.id.et_email);
         mEtPwd = findViewById(R.id.et_pwd);
+        name = findViewById(R.id.et_name);
 
         mBtnRegister = findViewById(R.id.btn_register);
         mBtnRegister.setOnClickListener(new View.OnClickListener() {
@@ -82,6 +83,8 @@ public class RegisterActivity extends AppCompatActivity {
 
                                         db.child("Setting").child(firebaseUser.getUid()).child("meter").setValue(a);
                                         db.child("Setting").child(firebaseUser.getUid()).child("zoom").setValue(b);
+
+                                        db.child("Name").child(firebaseUser.getUid()).setValue(name.getText().toString());
 
                                         Toast.makeText(RegisterActivity.this, "인증 이메일이 전송되었습니다.\n확인 후 로그인 해주세요!", Toast.LENGTH_LONG).show();
                                         finish();

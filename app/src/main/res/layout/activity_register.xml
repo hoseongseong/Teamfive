@@ -38,11 +38,27 @@
 
 
         <EditText
-            android:id="@+id/et_email"
+            android:id="@+id/et_name"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="90dp"
+            android:ems="12"
+            android:hint="이름"
+            android:padding="13dp"
+            android:fontFamily="@font/fontlight"
+            android:background="@drawable/background_rounding3"
+            android:inputType="textEmailAddress"
+            android:textColor="#000000"
+            android:textColorHint="#808080"
+            android:theme="@style/EditTheme" />
+
+        <EditText
+            android:id="@+id/et_email"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
             android:ems="12"
             android:hint="E-Mail"
             android:padding="13dp"

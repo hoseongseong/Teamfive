@@ -7,8 +7,10 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -29,6 +31,9 @@ public class SettingActivity extends AppCompatActivity {
     SeekBar meter_sk;
     TextView meter_tv;
 
+    TextView warning;
+
+    EditText email,pw;
     SeekBar zoom_sk;
     TextView zoom_tv;
 
@@ -47,6 +52,11 @@ public class SettingActivity extends AppCompatActivity {
 
         zoom_sk=(SeekBar)findViewById(R.id.zoom_seek);
         zoom_tv=(TextView)findViewById(R.id.zoom_tv);
+
+        warning=(TextView)findViewById(R.id.warning);
+
+        email=(EditText)findViewById(R.id.et_email);
+        pw=(EditText)findViewById(R.id.et_pwd);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         user_id=mFirebaseAuth.getCurrentUser().getUid();
@@ -129,5 +139,44 @@ public class SettingActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this,MainActivity.class);
         startActivity(intent);
+    }
+
+    public void manager_plus(View view) {
+        String semail = email.getText().toString();
+        String spw = pw.getText().toString();
+
+        try {
+            db.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for(DataSnapshot sn : snapshot.getChildren()) {
+                        UsersItem item = sn.getValue(UsersItem.class);
+
+                        if(item.getEmail().equals(semail) && item.getPassword().equals(spw)) {
+                            warning.setTextSize(0);
+                            db.child("Manager").child(user_id).child(sn.getKey()).setValue(sn.getKey());
+
+                            email.setText("");
+                            pw.setText("");
+
+                            Toast.makeText(SettingActivity.this, "관리 인원 추가 완료!", Toast.LENGTH_LONG).show();
+                        }
+
+                        else {
+                            warning.setTextSize(14);
+                        }
+
+                    }
+
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+        } catch(NullPointerException e) {
+            warning.setTextSize(14);
+        }
     }
 }
